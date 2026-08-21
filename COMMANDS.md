@@ -509,3 +509,45 @@ http://127.0.0.1:8000: The local address of the FastAPI development server. 127.
 Swagger UI: An interactive web interface for viewing and testing API endpoints. FastAPI automatically generates it at /docs using the application's OpenAPI schema. One small distinction: Swagger UI is the interface, while OpenAPI is the API specification format underneath it.'
 
 OpenAPI schema: A standardized machine-readable description of an API, including its endpoints, methods, request bodies, response formats, and validation rules. FastAPI generates it automatically, and Swagger UI uses it to build interactive API documentation.
+
+psql client: The PostgreSQL command-line interface used to connect to a PostgreSQL server and run SQL commands against databases.
+A useful analogy is:
+Chrome → client for websites
+psql   → client for PostgreSQL databases
+The PostgreSQL server is the actual service storing the data; psql is just one way to interact with it.
+
+ORM (Object-Relational Mapping): A technique that maps database tables to programming-language classes and rows to objects, allowing application code to interact with the database using objects instead of writing raw SQL for every operation.
+Object-Relational Mapping:
+Object → Python object/class
+Relational → relational database like PostgreSQL
+Mapping → connects the Python object to a database table
+One important point: an ORM does not eliminate SQL underneath. SQLAlchemy still ultimately sends SQL to PostgreSQL; it just gives you a higher-level Python interface.
+
+SQLAlchemy: Python database toolkit/ORM used to interact with relational databases.
+
+psycopg2: A Python PostgreSQL database driver. It allows Python applications and libraries like SQLAlchemy to establish connections to PostgreSQL and send database commands.
+
+Factory: An object/function configured to create other objects. SessionLocal is a session factory; every call to SessionLocal() creates a new SQLAlchemy database session using the same configuration.
+
+SQLAlchemy's Base and Pydantic's BaseModel serve different purposes:
+BaseModel (from Pydantic):
+- Used for API request/response schemas
+- Validates and parses data coming into or going out of FastAPI
+- Example: class DocumentCreate(BaseModel)
+Base (created using SQLAlchemy's declarative_base()):'
+- Used for database ORM models
+- Tells SQLAlchemy that the class maps to a database table
+- Example: class Document(Base)
+So:
+BaseModel -> API/data validation
+Base      -> database table mapping
+
+Docker: A platform for packaging applications and their dependencies into images and running those images as isolated containers
+
+Docker image: A packaged blueprint containing the application, runtime, dependencies, and configuration needed to run it.
+
+Docker container: A running instance of a Docker image.
+
+pip: is Python’s package installer. It lets you install Python libraries/packages that your project needs.
+
+pip freeze: lists the currently installed Python packages and their exact versions. Redirecting that output to requirements.txt creates a dependency file that another environment, such as Docker, can use to install the same packages.

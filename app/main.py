@@ -1,40 +1,33 @@
 # fastapi is the installed Python package/framework. From the fastapi package, import the FastAPI class
 # HTTPException: A FastAPI exception used to intentionally return an HTTP error response, such as 404 Not Found.
-from fastapi import FastAPI, HTTPException
+# Depends: Dependency: In FastAPI, Depends(...) lets an endpoint request something it needs, such as a database session.
+# FastAPI creates/provides that dependency before calling the endpoint.
+from fastapi import FastAPI, HTTPException, Depends
+from sqlalchemy.orm import Session
+from app.database import SessionLocal, engine
+from app import models
+from app.schemas import DocumentCreate, Document
 
-# Pydantic is a separate Python library for data validation and data parsing. 
-# FastAPI integrates with Pydantic to validate request and response data.
-# Note fastapi and pydantic are two different packages
-# BaseModel is a class provided by Pydantic
-from pydantic import BaseModel
+# Look at all SQLAlchemy models that inherit from Base, and create the corresponding database tables if they do not already exist.
+models.Base.metadata.create_all(bind=engine)
+
+# helper function whose job is to provide a database session.
+# get_db() creates a SQLAlchemy session, yields it to the endpoint, and closes it after the request finishes.
+def get_db():
+    db = SessionLocal()
+    try:
+        # yield means Give this database session to the FastAPI endpoint that needs it.
+        yield db
+    finally:
+        db.close()
+
 
 # Below we have created an object (instance) of that class, and that object represents your web application.
 # Import the FastAPI class and create a FastAPI web application object called app.
 app = FastAPI()
 
-# We use BaseModel class to describe: What should a valid document request look like?
-# class DocumentCreate(BaseModel): defines a new class DocumentCreate that inherits from Pydantic's BaseModel class, 
-# giving it Pydantic's validation and parsing behavior.
-# patient_id: str tells Pydantic that patient_id is expected to be a string. 
-# The class below defines the structure of a valid document coming into our API. 
-# It must contain patient_id, document_type, and content, and all three must be strings.
-# Since DocumentCreate inherits from BaseModel, Pydantic uses this annotation during validation.
-class DocumentCreate(BaseModel):
-    patient_id: str
-    document_type: str
-    content: str
-
-# Document inherits from DocumentCreate
-class Document(DocumentCreate):
-    id: int
-
-# Empty Python list that will temporarily act like our database.
-# One more important thing: because below documents list is in-memory storage, every server restart resets below two lines
-documents = []
-# next_document_id is acting as a simple in-memory ID counter
-next_document_id = 1
 # The @ means apply this decorator to the function directly below it.
-# That app object is the central object for our backend. We use it to tell FastAPI: 
+# That app object is the central object for our backend. We use it to tell FastAPI:
 # 1) to Register a GET route, and 2) Register a POST route.
 # Register the Python function immediately below i.e. health check as the function responsible for handling GET requests to /health
 @app.get("/health")
@@ -50,56 +43,71 @@ def health_check():
     status_code=201,
     response_model=Document
 )
-def create_document(document: DocumentCreate):
-    global next_document_id
-    new_document = {
-        "id": next_document_id,
-        "patient_id": document.patient_id,
-        "document_type": document.document_type,
-        "content": document.content,
-    }
-    documents.append(new_document)
-    next_document_id += 1
-    return new_document
+def create_document(
+    document: DocumentCreate,
+    # FastAPI, before calling this function (create_Document), run get_db() and give me the database session as db.
+    db: Session = Depends(get_db)
+):
+    # models.Document: This creates a SQLAlchemy ORM object. It represents a future row in the PostgreSQL documents table.
+    db_document = models.Document(
+        patient_id=document.patient_id,
+        document_type=document.document_type,
+        content=document.content
+    )
 
-# For the above post request
-# Client sends: POST /documents + JSON body
-#       ↓
-# FastAPI receives HTTP request
-#       ↓
-# FastAPI reads the JSON body
-#       ↓
-# Pydantic creates/validates a Python object
-#       ↓
-# Your Python function receives that object
-#       ↓
-# Your function returns Python data
-#       ↓
-# FastAPI serializes that Python data back to JSON
-#       ↓
-# Client receives HTTP response
+    # Tell this SQLAlchemy session that I want to insert this object into the database.
+    db.add(db_document)
+    db.commit()  # Permanently save the pending database changes.
+    db.refresh(db_document)  # reloads the object from PostgreSQL.
+    # This is useful because the database may have generated values such as: id = 1.
+    # After refresh, db_document.id contains that database-generated ID.
+    return db_document
 
 # This tells FastAPI: When a client sends a GET request to /documents, run the function directly below (get_documents).
-@app.get("/documents")
-def get_documents():
-    return documents
+@app.get("/documents", response_model=list[Document])
+# means FastAPI gives this endpoint ("/documnets") a database session.
+def get_documents(db: Session = Depends(get_db)):
+    # Query the Document ORM model, which maps to the PostgreSQL documents table that Return all rows.
+    return db.query(models.Document).all()
 
 # Below, The {document_id} part is called a path parameter.
-@app.get("/documents/{document_id}")
-def get_document(document_id: int):
-    for document in documents:
-        if document["id"] == document_id:
-            return document
+@app.get("/documents/{document_id}", response_model=Document)
+def get_document(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+    document = (
+        db.query(models.Document)
+        .filter(models.Document.id == document_id)
+        .first() # returns the first matching row, or None if nothing matches.
+    )
 
-    raise HTTPException(status_code=404, detail="Document not found")
+    if document is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    return document
 
 # Register a DELETE endpoint where document_id comes from the URL.
-@app.delete("/documents/{document_id}")
-def delete_document(document_id: int):
-    # enumerate() gives you both: index and document
-    for index, document in enumerate(documents):
-        if document["id"] == document_id:
-            deleted_document = documents.pop(index)
-            return deleted_document
+@app.delete("/documents/{document_id}", response_model=Document)
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+    document = (
+        db.query(models.Document)
+        .filter(models.Document.id == document_id)
+        .first()
+    )
 
-    raise HTTPException(status_code=404, detail="Document not found")
+    if document is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    db.delete(document)
+    db.commit()
+    return document

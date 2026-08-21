@@ -1,0 +1,42 @@
+# SQLAlchemy's Base and Pydantic's BaseModel serve different purposes:
+#
+# BaseModel (from Pydantic):
+# - Used for API request/response schemas
+# - Validates and parses data coming into or going out of FastAPI
+# - Example: class DocumentCreate(BaseModel)
+#
+# Base (created using SQLAlchemy's declarative_base()):
+# - Used for database ORM models
+# - Tells SQLAlchemy that the class maps to a database table
+# - Example: class Document(Base)
+#
+# So:
+# BaseModel -> API/data validation
+# Base      -> database table mapping
+
+# These are SQLAlchemy tools/types that describe database columns.
+from sqlalchemy import Column, Integer, String, Text
+from app.database import Base
+
+
+# Create an SQLAlchemy ORM model called Document.
+# Document inherits from SQLAlchemy's Base.
+# Because it inherits from Base, SQLAlchemy treats this class as a database model
+# and maps it to a PostgreSQL table.
+class Document(Base):
+
+    # This Python class maps to the PostgreSQL table named "documents".
+    __tablename__ = "documents"
+
+    # Integer column used as the unique primary key for each row.
+    # index=True creates a database index to make lookups by id faster.
+    id = Column(Integer, primary_key=True, index=True)
+
+    # String column.
+    # nullable=False means PostgreSQL does not allow NULL for this field.
+    patient_id = Column(String, nullable=False)
+
+    document_type = Column(String, nullable=False)
+
+    # Text is used for longer string content.
+    content = Column(Text, nullable=False)
