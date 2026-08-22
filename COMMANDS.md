@@ -486,7 +486,10 @@ source .venv/bin/activate
 Meaning:
 Run the virtual environment's activation script in the current terminal session.
 
+An API is a way for one software program to communicate with another software program. API stands for Application Programming Interface. It's a' defined interface that allows different software applications to communicate by sending requests and receiving responses. In your project, the browser/Swagger is one program, and your FastAPI backend is another. They communicate through API endpoints like: POST /documents, GET /documents, GET /documents/1
+
 FastAPI: A Python web framework used to build REST APIs. It maps HTTP requests to Python functions, validates request data, and converts Python responses into JSON.
+FastAPI is a Python tool that turns your Python functions into web/API endpoints like the functions below the decorator.
 
 Web framework: A library/framework that provides the structure and tools needed to build web applications or APIs, such as handling HTTP requests, routing URLs to functions, validating data, and generating responses.
 
@@ -527,6 +530,9 @@ SQLAlchemy: Python database toolkit/ORM used to interact with relational databas
 
 psycopg2: A Python PostgreSQL database driver. It allows Python applications and libraries like SQLAlchemy to establish connections to PostgreSQL and send database commands.
 
+SQLAlchemy = how I work with the database.
+psycopg2 = how Python physically talks to PostgreSQL.
+
 Factory: An object/function configured to create other objects. SessionLocal is a session factory; every call to SessionLocal() creates a new SQLAlchemy database session using the same configuration.
 
 SQLAlchemy's Base and Pydantic's BaseModel serve different purposes:
@@ -551,3 +557,69 @@ Docker container: A running instance of a Docker image.
 pip: is Python’s package installer. It lets you install Python libraries/packages that your project needs.
 
 pip freeze: lists the currently installed Python packages and their exact versions. Redirecting that output to requirements.txt creates a dependency file that another environment, such as Docker, can use to install the same packages.
+
+Detached mode (-d) runs a Docker container in the background and immediately returns control of the terminal to the user.
+
+AWS (Amazon Web Services) — A cloud platform that provides computing, storage, databases, networking, and other IT services over the internet.
+Mental image: “Rent IT infrastructure from Amazon instead of owning servers.”
+
+EC2 (Elastic Compute Cloud) — A virtual computer/server that you rent and run in AWS.
+Mental image: “A computer in the cloud that I manage.”
+
+ECR (Elastic Container Registry) — An AWS service used to store and manage Docker/container images.
+Mental image: “A warehouse for Docker images.”
+
+ECR repository = a storage location in AWS ECR where one or more versions/tags of a Docker image are stored.
+
+ECR repository URI = the address AWS gives to an ECR repository. Docker uses this address when pushing or pulling images.
+
+ECS (Elastic Container Service) — An AWS service that manages and runs containers.
+Mental image: “The manager that tells containers when and how to run.”
+
+Fargate — A serverless compute option for ECS that runs your containers without you managing EC2 servers.
+Mental image: “AWS gives my container the CPU/RAM it needs; I don’t manage the machine.” You mainly provide Fargate with:
+- your Docker image
+- CPU/RAM requirements
+- networking/configuration
+
+RDS (Relational Database Service) — An AWS service for running managed relational databases such as PostgreSQL or MySQL.
+Mental image: “PostgreSQL in AWS, with AWS managing much of the database server.”
+
+AWS Region — A geographic area where AWS has data centers and where your AWS resources are created.
+Example: us-east-1 = Northern Virginia.
+Mental image: “The physical part of the world where my AWS resources live.”
+
+S3 — Simple Storage Service is an Object/file storage in AWS. You can store things like images, PDFs, backups, logs, or uploaded documents. Mental image: “A giant cloud folder/bucket.”
+In a more advanced version of your clinical-document project, actual document files could be stored in S3 while metadata stays in PostgreSQL.
+
+CloudWatch - AWS’s monitoring and logging service. It collects things like application logs, errors, CPU usage, and alarms.
+Mental image: “AWS dashboard + logbook for watching what my application is doing.”
+Later, your ECS/Fargate FastAPI logs can appear in CloudWatch.
+
+IAM — Identity and Access Management - Controls who can access AWS and what they are allowed to do.
+Mental image: “AWS security guard + permission system.”
+
+AWS CLI — A command-line tool used to create, configure, and manage AWS resources from a terminal.
+
+AWS CLI profile = a named local configuration that tells the AWS CLI which AWS identity/credentials and region to use.
+# Verify which AWS identity the CLI is currently using? Expected ARN should end with: user/clinical-api-dev
+(.venv) swapnil@Animeshs-MacBook-Air clinical-document-api % aws sts get-caller-identity --profile clinical-api-dev
+{
+    "UserId": "AIDA3OVBPKOL65NYVITUL",
+    "Account": "787391402903",
+    "Arn": "arn:aws:iam::787391402903:user/clinical-api-dev"
+}
+
+Image digest = a unique hash that identifies the exact contents of a Docker image.
+
+Docker tag = gives an existing Docker image another name, usually including the registry address where it will be pushed.
+Docker tag did not duplicate the 374 MB image. It just added another name pointing to it.
+
+Docker image tag = a label used to identify a particular version of an image. It usually comes after a colon.
+So when we pushed: .../clinical-document-api:latest, the latest part is just the tag.
+
+Pager = a terminal viewer that shows long command output one screen at a time.
+
+Port mapping = connects a port on the host machine to a port inside a Docker container so the application inside the container can be accessed from outside it.
+
+Persistence = data continues to exist after the operation that created it is finished.
