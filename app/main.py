@@ -7,6 +7,19 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine
 from app import models
 from app.schemas import DocumentCreate, Document
+# Below 3 lines for claude integration
+import os
+from dotenv import load_dotenv
+from anthropic import Anthropic
+
+#Reads .env
+load_dotenv()
+# os.getenv("ANTHROPIC_API_KEY") -> Gets the API key
+# Anthropic(api_key=...) -> Creates a client we can use to talk to Claude
+# client as our connection/interface to the Claude API.
+client = Anthropic(
+    api_key=os.getenv("ANTHROPIC_API_KEY")
+)
 
 # Look at all SQLAlchemy models that inherit from Base, and create the corresponding database tables if they do not already exist.
 models.Base.metadata.create_all(bind=engine)
@@ -111,3 +124,45 @@ def delete_document(
     db.delete(document)
     db.commit()
     return document
+
+@app.post("/documents/{document_id}/analyze")
+def analyze_document(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+    # 1. Get the document from PostgreSQL
+    document = (
+        db.query(models.Document)
+        .filter(models.Document.id == document_id)
+        .first()
+    )
+
+    # 2. Return 404 if the document doesn't exist
+    if document is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    # 3. Send the document content to Claude
+    message = client.messages.create(
+        model="claude-haiku-4-5",
+        max_tokens=500,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""
+Summarize the following clinical document.
+
+Document:
+{document.content}
+"""
+            }
+        ]
+    )
+
+    # 4. Return Claude's response
+    return {
+        "document_id": document.id,
+        "analysis": message.content[0].text
+    }
