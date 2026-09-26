@@ -154,6 +154,10 @@ def analyze_document(
                 "content": f"""
 Summarize the following clinical document.
 
+Use only information explicitly stated in the document.
+Do not infer or add medical facts that are not present.
+If information is missing, do not make assumptions.
+
 Document:
 {document.content}
 """
