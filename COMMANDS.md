@@ -582,6 +582,23 @@ Mental image: “AWS gives my container the CPU/RAM it needs; I don’t manage t
 - CPU/RAM requirements
 - networking/configuration
 
+                  ECS
+                   │
+          ┌────────┴────────┐
+          ↓                 ↓
+      Fargate              EC2
+   AWS manages          You manage
+   the servers          the servers
+
+ECS:
+"Run this clinical-document-api container.
+Give it this configuration.
+Keep track of whether it's running."
+            ↓
+Fargate:
+"Okay. I'll provide the CPU + RAM
+and actually run the container."
+
 RDS (Relational Database Service) — An AWS service for running managed relational databases such as PostgreSQL or MySQL.
 Mental image: “PostgreSQL in AWS, with AWS managing much of the database server.”
 
@@ -623,3 +640,88 @@ Pager = a terminal viewer that shows long command output one screen at a time.
 Port mapping = connects a port on the host machine to a port inside a Docker container so the application inside the container can be accessed from outside it.
 
 Persistence = data continues to exist after the operation that created it is finished.
+
+Logical Group = “Grouped together conceptually by AWS configuration, not because they are physically sitting on the same computer.”
+clinical-document-cluster
+│
+├── service A → FastAPI
+├── service B → background worker
+└── service C → another container
+Those workloads are grouped together in ECS, but Fargate could run them on completely different physical machines behind the scenes.
+
+## Cluster
+In Amazon ECS, a cluster is a logical group/place where your containers run.
+For your project:
+ECS
+ │
+ └── Cluster: clinical-document-cluster
+          │
+          └── Fargate Task
+                  │
+                  └── Docker Container
+                          │
+                          └── FastAPI
+Think of the cluster as a folder/group for your running application resources.
+
+The important distinction is:
+
+Cluster = WHERE you organize/run tasks
+Task Definition = HOW to run the container
+Task = an actual running instance
+Fargate = compute that actually provides CPU/RAM
+
+For example, you created: clinical-document-cluster
+Then you told ECS roughly:
+"In this cluster, run a task using my clinical-document-task task definition, and use Fargate to provide the computing resources."
+So the cluster itself isn't your server and doesn't run FastAPI by itself. It's the ECS-level grouping in which your tasks/services live.
+For interviews, I'd use the technical definition rather than the analogy: “An ECS cluster is a logical grouping of ECS tasks and services.”
+
+Cluster = logical group that can contain many tasks → each task can contain one or more containers.
+And if later you wanted 3 copies of your FastAPI app for more traffic, ECS could run 3 tasks, each running a FastAPI container:
+Cluster
+├── Task → FastAPI container
+├── Task → FastAPI container
+└── Task → FastAPI container
+That's part of how ECS supports scaling.'
+
+## Policy
+Policy = the actual permission rules attached to users, groups, or roles.
+So you can remember IAM as:
+User  → WHO you are
+Group → WHO you belong with
+Role  → WHO a service temporarily becomes - What temporary AWS identity can this service assume to do its job?
+Policy → WHAT they are allowed to do
+Task → WHAT ECS is actually running
+
+A role is commonly assumed by:
+ECS
+EC2
+Lambda
+another AWS service
+another AWS account
+
+AWS Console = the AWS website/dashboard where you manage cloud resources by clicking through the UI.
+So there are two common ways to work with AWS:
+AWS Console
+= browser / graphical interface
+AWS CLI
+= terminal commands
+
+## Port vs Socket
+A port is a numeric identifier used to route network traffic to a service on a host. A socket is the actual communication endpoint used by a process, typically identified by an IP address, port, and protocol.
+A socket is an OS networking object/endpoint that a program actually uses to send or receive network data.
+
+## Security group
+
+A Security Group is essentially a network firewall controlling permitted traffic.
+
+ECS/Fargate Security Group: controls who can reach your FastAPI container. We allowed your current public IP to reach port 8000.
+RDS Security Group: controls who can reach PostgreSQL. We allowed the ECS security group to reach port 5432.
+
+## Task Definition
+
+"Run this image"
+"with this CPU"
+"with this RAM"
+"on port 8000"
+"with these environment variables"

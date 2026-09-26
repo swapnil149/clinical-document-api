@@ -2,7 +2,7 @@
 
 A backend API for storing and managing clinical documents.
 
-This project was built to practice backend development with Python, FastAPI, PostgreSQL, SQLAlchemy, Docker, AWS, and Terraform.
+This project was built to practice backend development with Python, FastAPI, PostgreSQL, SQLAlchemy, Docker, and AWS.
 
 ## Tech Stack
 
@@ -16,7 +16,6 @@ This project was built to practice backend development with Python, FastAPI, Pos
 * AWS ECR
 * AWS RDS
 * AWS ECS/Fargate
-* Terraform
 
 ## Project Architecture
 
@@ -50,9 +49,11 @@ FastAPI container
 Amazon RDS PostgreSQL
 ```
 
-At the current stage of the project, the Docker image is stored in ECR and the application can connect successfully from a local Docker container to PostgreSQL running in Amazon RDS.
+The application is deployed on AWS using Amazon ECS with AWS Fargate.
 
-ECS/Fargate deployment is the next step.
+The Docker image is stored in Amazon ECR. ECS uses the task definition to run the image on Fargate, and the FastAPI container connects to PostgreSQL hosted on Amazon RDS.
+
+The deployed API was verified through Swagger UI, including a successful `GET /documents` request returning HTTP 200.
 
 ## API Endpoints
 
@@ -69,6 +70,12 @@ The API supports CRUD operations for clinical documents.
 
 ## Document Model
 
+A clinical document could be:
+- a lab report — blood test results, cholesterol levels, etc.
+- a doctor's note — symptoms, diagnosis, treatment notes
+- a discharge summary — what happened during a hospital stay
+- a radiology report — written results from an X-ray, MRI, CT scan
+- a prescription/medication record
 A clinical document contains:
 
 ```json
@@ -78,7 +85,6 @@ A clinical document contains:
   "content": "Clinical document content"
 }
 ```
-
 A stored document also contains an automatically generated ID.
 
 Example:
@@ -305,21 +311,44 @@ clinical_document_db
 
 is used by the application.
 
+## Security group
+
+A Security Group is essentially a network firewall controlling permitted traffic.
+
+ECS/Fargate Security Group: controls who can reach your FastAPI container. We allowed your current public IP to reach port 8000.
+RDS Security Group: controls who can reach PostgreSQL. We allowed the ECS security group to reach port 5432.
+
 ## RDS Security Group
 
-A dedicated security group controls access to PostgreSQL.
+A dedicated security group controls access to PostgreSQL on port 5432.
 
-The PostgreSQL inbound rule uses:
+For development, two types of access may be configured:
 
-```text
-Protocol: TCP
-Port: 5432
-Source: My IP
-```
+1. My current public IP (`/32`)
+   - Allows direct PostgreSQL access from my development machine.
 
-This means PostgreSQL connections are only allowed from the configured public IP address.
+2. ECS task security group
+   - Allows the FastAPI container running on Fargate to connect to RDS.
 
-Port `5432` is the default PostgreSQL server port.
+The application does not require RDS to be open to `0.0.0.0/0`.
+
+The `/32` rule allows direct PostgreSQL connections from only my current public IP address. Separately, the ECS task security group allows the FastAPI container running on Fargate to connect to RDS.
+The `/32` CIDR rule represents one specific public IP address.
+
+If My Public IP Changes
+My public IP address can change over time, for example after switching Wi-Fi networks, restarting the router, or because of changes made by the internet service provider.
+If my public IP changes, the RDS security group may still contain the old IP address. In that case, connections to PostgreSQL can fail with a timeout.
+To update access:
+Open the AWS Console.
+Go to EC2 → Security Groups.
+Open clinical-document-db-sg.
+Go to Inbound rules → Edit inbound rules.
+Find the PostgreSQL rule for port 5432.
+Change the source to My IP.
+Save the rule.
+
+AWS will replace the old IP with my current public IP.
+This is safer than using 0.0.0.0/0, because 0.0.0.0/0 would allow any IPv4 address on the internet to attempt to connect to the database.
 
 ## Connecting to RDS with psql
 
@@ -452,23 +481,22 @@ Completed:
 * Connected the local Dockerized FastAPI application to AWS RDS
 * Verified the application can store and retrieve data from RDS
 
-## Next Step — Day 4
+### Day 4 — ECS/Fargate Deployment
 
-Deploy the FastAPI container completely into AWS using:
+Completed:
 
-```text
-Amazon ECR
-     ↓
-Amazon ECS
-     ↓
-AWS Fargate
-     ↓
-FastAPI container
-     ↓
-Amazon RDS PostgreSQL
-```
-
-After this step, FastAPI will no longer need to run on the local Mac.
+* Created an ECS cluster
+* Created an ECS task definition for the FastAPI container
+* Configured the task to use the Docker image stored in ECR
+* Configured Fargate with 0.25 vCPU and 512 MiB memory
+* Configured container port 8000
+* Configured the `DATABASE_URL` environment variable for RDS
+* Configured VPC networking and security groups
+* Allowed the ECS/Fargate task to connect to RDS on PostgreSQL port 5432
+* Launched the container using AWS Fargate
+* Assigned a public IP to the Fargate task
+* Accessed FastAPI Swagger UI through the Fargate public IP
+* Verified `GET /documents` returns HTTP 200 from the deployed API
 
 ## Security Notes
 
@@ -487,39 +515,40 @@ Use environment variables or AWS-managed secret storage for sensitive configurat
 
 ## Future Work
 
-* Deploy API using ECS and Fargate
+* Add Claude API document analysis
+* Improve secret management using AWS Secrets Manager
 * Add Terraform infrastructure
-* Improve secret management
-* Add production networking
+* Add production networking with a load balancer and HTTPS
 * Add logging and monitoring with CloudWatch
 * Add authentication and authorization
 * Add database migrations
 * Add automated tests
 * Add CI/CD
 
-## RDS Security Group
+## Troubleshooting
 
-A dedicated security group controls access to PostgreSQL.
-The PostgreSQL inbound rule uses:
+### Swagger UI times out
 
-```text
-Protocol: TCP
-Port: 5432
-Source: My IP
+If the ECS/Fargate task shows `RUNNING` but:
 
-This means PostgreSQL connections are allowed only from my current public IP address.
-The security group stores that IP as a /32 CIDR rule, which represents one specific IP address.
-If My Public IP Changes
-My public IP address can change over time, for example after switching Wi-Fi networks, restarting the router, or because of changes made by the internet service provider.
-If my public IP changes, the RDS security group may still contain the old IP address. In that case, connections to PostgreSQL can fail with a timeout.
-To update access:
-Open the AWS Console.
-Go to EC2 → Security Groups.
-Open clinical-document-db-sg.
-Go to Inbound rules → Edit inbound rules.
-Find the PostgreSQL rule for port 5432.
-Change the source to My IP.
-Save the rule.
+http://<FARGATE_PUBLIC_IP>:8000/docs
 
-AWS will replace the old IP with my current public IP.
-This is safer than using 0.0.0.0/0, because 0.0.0.0/0 would allow any IPv4 address on the internet to attempt to connect to the database.
+times out, check the ECS task security group's inbound rule.
+
+AWS Console:
+EC2 → Security Groups → ECS task security group → Inbound rules
+
+The rule should be:
+
+- Type: Custom TCP
+- Port: 8000
+- Source: My IP
+
+If my public IP has changed:
+1. Click "Edit inbound rules"
+2. Find the port 8000 rule
+3. Change Source to "My IP"
+4. Save rules
+5. Reload Swagger
+
+Reason: `/32` allows only one specific public IP address. My public IP can change, so an old `/32` rule can block access even while the Fargate task is running.
