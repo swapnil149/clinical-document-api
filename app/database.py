@@ -15,6 +15,14 @@ DATABASE_URL = os.getenv(
     "postgresql://swapnil@localhost:5432/clinical_document_db"
 )
 
+# Explicitly use the psycopg2 PostgreSQL driver.
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://",
+        "postgresql+psycopg2://",
+        1
+    )
+
 engine = create_engine(DATABASE_URL)
 
 # Factory: An object/function configured to create other objects. 

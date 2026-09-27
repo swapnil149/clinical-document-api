@@ -725,3 +725,11 @@ RDS Security Group: controls who can reach PostgreSQL. We allowed the ECS securi
 "with this RAM"
 "on port 8000"
 "with these environment variables"
+
+## Uvicorn 
+Uvicorn is the web server that actually runs your FastAPI application and listens for incoming HTTP requests.
+Uvicorn runs FastAPI regardless of whether you're' on your laptop, inside Docker locally, or inside a Docker container on AWS Fargate.
+The thing that changes is where Uvicorn is running:
+Local: Uvicorn runs on your Mac.
+Docker local: Uvicorn runs inside your Docker container on your Mac.
+AWS: Uvicorn runs inside your Docker container on Fargate.
