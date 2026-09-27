@@ -1,21 +1,25 @@
 # Clinical Document API
 
-A backend API for storing and managing clinical documents.
+A containerized backend API for storing, managing, and analyzing clinical documents using FastAPI, PostgreSQL, AWS, and the Anthropic Claude API.
 
-This project was built to practice backend development with Python, FastAPI, PostgreSQL, SQLAlchemy, Docker, and AWS.
+The project demonstrates REST API development, relational database integration, Docker containerization, AWS cloud deployment, secure secret management, logging/monitoring, and LLM API integration.
 
 ## Tech Stack
 
-* Python
-* FastAPI
-* PostgreSQL
-* SQLAlchemy
-* psycopg2
-* Pydantic
-* Docker
-* AWS ECR
-* AWS RDS
-* AWS ECS/Fargate
+- Python
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- psycopg2
+- Pydantic
+- Docker
+- Anthropic Claude API
+- AWS ECR
+- AWS RDS
+- AWS ECS/Fargate
+- AWS IAM
+- AWS Secrets Manager
+- AWS CloudWatch
 
 ## Project Architecture
 
@@ -36,24 +40,38 @@ PostgreSQL
 ### AWS Architecture
 
 ```text
-Docker image
-    ↓
-Amazon ECR
-    ↓
-Amazon ECS
-    ↓
-AWS Fargate
-    ↓
-FastAPI container
-    ↓
-Amazon RDS PostgreSQL
-```
+                         Amazon ECR
+                             │
+                       Docker image
+                             │
+                             ▼
+Client / Swagger ──► ECS / Fargate
+                             │
+                             ▼
+                     FastAPI Container
+                       │           │
+                       │           │
+                       ▼           ▼
+                  SQLAlchemy    Anthropic
+                       │        Claude API
+                       ▼           ▲
+                   psycopg2        │
+                       │      API key injected
+                       ▼           │
+                PostgreSQL RDS     │
+                                   │
+                         AWS Secrets Manager
+
+FastAPI container logs
+         │
+         ▼
+   AWS CloudWatch
+
 
 The application is deployed on AWS using Amazon ECS with AWS Fargate.
+The Docker image is stored in Amazon ECR and executed as an ECS task using AWS Fargate. The FastAPI application connects to PostgreSQL hosted on Amazon RDS using SQLAlchemy and psycopg2.
 
-The Docker image is stored in Amazon ECR. ECS uses the task definition to run the image on Fargate, and the FastAPI container connects to PostgreSQL hosted on Amazon RDS.
-
-The deployed API was verified through Swagger UI, including a successful `GET /documents` request returning HTTP 200.
+Clinical documents can also be analyzed through the Anthropic Claude API. The Anthropic API key is stored in AWS Secrets Manager and securely injected into the ECS container at runtime. Application logs are sent to AWS CloudWatch.
 
 ## API Endpoints
 
@@ -67,6 +85,7 @@ The API supports CRUD operations for clinical documents.
 | GET    | `/documents/{id}` | Get a document by ID |
 | PUT    | `/documents/{id}` | Update a document    |
 | DELETE | `/documents/{id}` | Delete a document    |
+| POST   | `/documents/{id}/analyze` | Analyze a clinical document using Claude |
 
 ## Document Model
 
@@ -97,6 +116,29 @@ Example:
   "content": "Clinical document content"
 }
 ```
+
+## AI Document Analysis
+
+The API supports AI-powered analysis of stored clinical documents using the Anthropic Claude API.
+
+Request flow:
+
+POST /documents/{id}/analyze
+        ↓
+FastAPI
+        ↓
+Retrieve document from PostgreSQL RDS
+        ↓
+Send document content to Claude
+        ↓
+Generate clinical summary
+        ↓
+Return analysis as JSON
+Example:
+{
+  "document_id": 4,
+  "analysis": "Clinical summary generated from the stored document."
+}
 
 ## Database
 
@@ -171,6 +213,45 @@ Swagger documentation will be available at:
 ```text
 http://localhost:8000/docs
 ```
+
+### 5. Add a Secrets Manager section
+
+This is important enough to document because it's something you can discuss in interviews.
+
+```markdown
+## AWS Secrets Manager
+
+The Anthropic API key is not hard-coded in the application or Docker image.
+
+The key is stored in AWS Secrets Manager and referenced by the ECS task definition.
+AWS Secrets Manager
+        ↓
+ECS Task Execution Role
+        ↓
+ECS/Fargate Task
+        ↓
+ANTHROPIC_API_KEY environment variable
+        ↓
+FastAPI / Anthropic SDK
+
+### 6. Add CloudWatch
+
+Your old Future Work says *“Add logging and monitoring with CloudWatch”*, but you've now done that. :chatgpt-content-reference{index="5"}
+
+Add:
+
+```markdown
+## AWS CloudWatch
+
+The ECS container sends application logs to AWS CloudWatch.
+
+CloudWatch logs were used to diagnose deployment issues including:
+
+- container startup failures
+- PostgreSQL driver configuration errors
+- Anthropic API authentication errors
+
+This allows application failures to be investigated without direct access to the running container.
 
 ## Docker
 
@@ -498,6 +579,23 @@ Completed:
 * Accessed FastAPI Swagger UI through the Fargate public IP
 * Verified `GET /documents` returns HTTP 200 from the deployed API
 
+### Day 5 — Claude API and AWS Secrets Manager
+
+Completed:
+
+- Integrated the Anthropic Claude API
+- Added `POST /documents/{id}/analyze`
+- Retrieved stored documents from PostgreSQL before analysis
+- Added AWS Secrets Manager for Anthropic API credentials
+- Configured IAM permissions for ECS secret retrieval
+- Injected `ANTHROPIC_API_KEY` into the Fargate container
+- Added CloudWatch logging for the ECS task
+- Diagnosed and fixed a PostgreSQL driver mismatch between local and Docker environments
+- Explicitly configured SQLAlchemy to use psycopg2
+- Fixed ECS Secrets Manager JSON-key extraction
+- Deployed ECS task definition Revision 3
+- Successfully tested end-to-end document analysis through Swagger UI
+
 ## Security Notes
 
 Do not commit any of the following to GitHub:
@@ -515,15 +613,15 @@ Use environment variables or AWS-managed secret storage for sensitive configurat
 
 ## Future Work
 
-* Add Claude API document analysis
-* Improve secret management using AWS Secrets Manager
-* Add Terraform infrastructure
-* Add production networking with a load balancer and HTTPS
-* Add logging and monitoring with CloudWatch
-* Add authentication and authorization
-* Add database migrations
-* Add automated tests
-* Add CI/CD
+- Add Retrieval-Augmented Generation (RAG) with embeddings and vector search
+- Manage AWS infrastructure using Terraform
+- Add an Application Load Balancer and HTTPS
+- Move database credentials to AWS Secrets Manager
+- Add authentication and authorization
+- Add database migrations
+- Add automated tests
+- Add CI/CD
+- Add production-grade error handling and retry logic for external API calls
 
 ## Troubleshooting
 
