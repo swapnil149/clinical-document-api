@@ -1,8 +1,14 @@
 # Clinical Document API
 
-A containerized backend API for storing, managing, and analyzing clinical documents using FastAPI, PostgreSQL, AWS, and the Anthropic Claude API.
+A containerized backend API for storing, managing, analyzing, and semantically searching synthetic clinical documents using FastAPI, PostgreSQL, RAG, AWS, and the Anthropic Claude API.
 
-The project demonstrates REST API development, relational database integration, Docker containerization, AWS cloud deployment, secure secret management, logging/monitoring, and LLM API integration.
+The project demonstrates REST API development, relational database integration, Docker containerization, AWS cloud deployment, secure secret management, logging/monitoring, LLM API integration, and Retrieval-Augmented Generation (RAG).
+
+The RAG pipeline uses Voyage AI embeddings and PostgreSQL with pgvector to retrieve relevant clinical document context before generating grounded answers with Claude.
+
+> Note: The core API and Claude document-analysis functionality are deployed on AWS. The RAG functionality is currently implemented and tested locally.
+
+## Tech Stack
 
 ## Tech Stack
 
@@ -14,6 +20,8 @@ The project demonstrates REST API development, relational database integration, 
 - Pydantic
 - Docker
 - Anthropic Claude API
+- Voyage AI
+- pgvector
 - AWS ECR
 - AWS RDS
 - AWS ECS/Fargate
@@ -36,6 +44,56 @@ psycopg2
         ↓
 PostgreSQL
 ```
+### RAG Architecture
+
+The application also supports Retrieval-Augmented Generation (RAG) for question answering across stored clinical documents.
+
+#### Document Indexing
+
+When a new document is created, the document is first stored in PostgreSQL and then indexed for RAG.
+
+```text
+POST /documents
+      ↓
+Store document in PostgreSQL
+      ↓
+Split document into overlapping chunks
+      ↓
+Generate document embeddings with Voyage AI
+      ↓
+Store chunks + embeddings
+      ↓
+PostgreSQL + pgvector
+```
+
+Each chunk is linked to its original document using `document_id`. The embeddings are stored as 1024-dimensional pgvector vectors.
+
+#### Question Answering
+
+When a user asks a question:
+
+```text
+POST /rag/ask
+      ↓
+User question
+      ↓
+Generate query embedding with Voyage AI
+      ↓
+Cosine-distance search with pgvector
+      ↓
+Retrieve most relevant document chunks
+      ↓
+Join chunks with parent document metadata
+      ↓
+Build retrieved context
+      ↓
+Send context + question to Claude
+      ↓
+Return grounded answer
+```
+Claude is instructed to answer only from the retrieved clinical document context and to indicate when the available context does not contain enough information.
+
+The RAG functionality is currently implemented and tested locally and has not yet been deployed to AWS.
 
 ### AWS Architecture
 
@@ -75,17 +133,17 @@ Clinical documents can also be analyzed through the Anthropic Claude API. The An
 
 ## API Endpoints
 
-The API supports CRUD operations for clinical documents.
+The API supports storing, retrieving, deleting, analyzing, and semantically searching clinical documents.
 
-| Method | Endpoint          | Description          |
-| ------ | ----------------- | -------------------- |
-| GET    | `/health`         | Health check         |
-| POST   | `/documents`      | Create a document    |
-| GET    | `/documents`      | Get all documents    |
-| GET    | `/documents/{id}` | Get a document by ID |
-| PUT    | `/documents/{id}` | Update a document    |
-| DELETE | `/documents/{id}` | Delete a document    |
-| POST   | `/documents/{id}/analyze` | Analyze a clinical document using Claude |
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET | `/health` | Health check |
+| POST | `/documents` | Create and index a document |
+| GET | `/documents` | Get all documents |
+| GET | `/documents/{id}` | Get a document by ID |
+| DELETE | `/documents/{id}` | Delete a document |
+| POST | `/documents/{id}/analyze` | Analyze a specific clinical document using Claude |
+| POST | `/rag/ask` | Ask questions across indexed documents using RAG |
 
 ## Document Model
 
@@ -139,6 +197,39 @@ Example:
   "document_id": 4,
   "analysis": "Clinical summary generated from the stored document."
 }
+
+## RAG Question Answering
+
+The API also supports question answering across indexed clinical documents using Retrieval-Augmented Generation (RAG).
+
+Unlike `/documents/{id}/analyze`, the user does not need to know which document contains the answer. The application searches the indexed document chunks for relevant context before calling Claude.
+
+Example request:
+
+```json
+{
+  "question": "Which patient reported persistent headaches?"
+}
+```
+
+The application:
+
+1. Generates an embedding for the question using Voyage AI.
+2. Uses pgvector cosine-distance search to retrieve the most relevant document chunks.
+3. Joins the chunks with their parent documents to retrieve metadata such as patient ID and document type.
+4. Provides the retrieved context and question to Claude.
+5. Instructs Claude to answer only from the retrieved context.
+
+Example response:
+
+```json
+{
+  "question": "Which patient reported persistent headaches?",
+  "answer": "According to the clinical document context, Patient P3001 reported persistent headaches for the past three days."
+}
+```
+
+If the retrieved context does not contain enough information, Claude is instructed to state that the available context is insufficient rather than inventing missing clinical details.
 
 ## Database
 
@@ -596,6 +687,27 @@ Completed:
 - Deployed ECS task definition Revision 3
 - Successfully tested end-to-end document analysis through Swagger UI
 
+### Day 6 — Retrieval-Augmented Generation (RAG)
+
+Completed locally:
+
+- Added pgvector support to PostgreSQL
+- Added a `document_chunks` table for storing document chunks and embeddings
+- Implemented overlapping character-based document chunking
+- Integrated Voyage AI for document and query embeddings
+- Automatically index newly created documents for RAG
+- Store 1024-dimensional embeddings using pgvector
+- Implemented cosine-distance vector search for semantic retrieval
+- Joined retrieved chunks with parent documents to include metadata
+- Added `POST /rag/ask` for question answering across indexed documents
+- Integrated retrieved context with Claude for grounded responses
+- Added handling for RAG indexing failures
+- Added handling for an empty RAG index
+- Configured cascade deletion so deleting a document also removes its indexed chunks
+- Tested automatic indexing, semantic retrieval, grounded question answering, missing-information behavior, and cascade deletion
+
+The RAG implementation is currently working locally. AWS deployment of the RAG-enabled version is the next step.
+
 ## Security Notes
 
 Do not commit any of the following to GitHub:
@@ -613,7 +725,7 @@ Use environment variables or AWS-managed secret storage for sensitive configurat
 
 ## Future Work
 
-- Add Retrieval-Augmented Generation (RAG) with embeddings and vector search
+- Deploy the RAG-enabled application to AWS
 - Manage AWS infrastructure using Terraform
 - Add an Application Load Balancer and HTTPS
 - Move database credentials to AWS Secrets Manager

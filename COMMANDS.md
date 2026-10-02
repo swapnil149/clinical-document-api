@@ -733,3 +733,12 @@ The thing that changes is where Uvicorn is running:
 Local: Uvicorn runs on your Mac.
 Docker local: Uvicorn runs inside your Docker container on your Mac.
 AWS: Uvicorn runs inside your Docker container on Fargate.
+
+### Document indexing
+Document indexing = chunk the document, create embeddings for the chunks, and store the chunks + embeddings so they can be retrieved later.
+And remember the distinction:
+Indexing = prepare/store.
+Retrieval = search the stored index.
+
+### Error Code: 503
+503 Service Unavailable communicates that the server couldn't complete part of the operation because a required service (service given by voyage.ai) is currently unavailable.

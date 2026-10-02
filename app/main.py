@@ -6,13 +6,14 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine
 from app import models
-from app.schemas import DocumentCreate, Document
+from app.rag import search_similar_chunks, index_document
+from app.schemas import DocumentCreate, Document, QuestionRequest
 # Below 3 lines for claude integration
 import os
 from dotenv import load_dotenv
 from anthropic import Anthropic
 
-#Reads .env
+# Reads .env
 load_dotenv()
 # os.getenv("ANTHROPIC_API_KEY") -> Gets the API key
 # Anthropic(api_key=...) -> Creates a client we can use to talk to Claude
@@ -26,6 +27,8 @@ models.Base.metadata.create_all(bind=engine)
 
 # helper function whose job is to provide a database session.
 # get_db() creates a SQLAlchemy session, yields it to the endpoint, and closes it after the request finishes.
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -43,6 +46,8 @@ app = FastAPI()
 # That app object is the central object for our backend. We use it to tell FastAPI:
 # 1) to Register a GET route, and 2) Register a POST route.
 # Register the Python function immediately below i.e. health check as the function responsible for handling GET requests to /health
+
+
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
@@ -51,6 +56,8 @@ def health_check():
 # The document parameter should contain data matching the DocumentCreate model.
 # Below function creates a Python dictionary for the new document and assigns an ID.
 # The successful response from this endpoint should have the structure defined by the Document Pydantic model.
+
+
 @app.post(
     "/documents",
     status_code=201,
@@ -73,10 +80,24 @@ def create_document(
     db.commit()  # Permanently save the pending database changes.
     db.refresh(db_document)  # reloads the object from PostgreSQL.
     # This is useful because the database may have generated values such as: id = 1.
-    # After refresh, db_document.id contains that database-generated ID.
+    # After refresh, db_document.id contains that database-generated ID. 
+
+    # Index the newly created document for RAG
+    # RAG helps an LLM find the relevant information from an external knowledge source before answering a question.
+    # The document is already committed before indexing on line 80.
+    # If indexing fails below, the document remains saved but may not be searchable by RAG.
+    try:
+        index_document(db, db_document)
+    except Exception:
+        raise HTTPException(
+            # 503 Service Unavailable communicates that the server couldn't complete part of the operation because a required service (service given by voyage.ai) is currently unavailable.
+            status_code=503,
+            detail="Document was saved, but RAG indexing failed"
+        )
     return db_document
 
 # This tells FastAPI: When a client sends a GET request to /documents, run the function directly below (get_documents).
+
 @app.get("/documents", response_model=list[Document])
 # means FastAPI gives this endpoint ("/documnets") a database session.
 def get_documents(db: Session = Depends(get_db)):
@@ -84,6 +105,8 @@ def get_documents(db: Session = Depends(get_db)):
     return db.query(models.Document).all()
 
 # Below, The {document_id} part is called a path parameter.
+
+
 @app.get("/documents/{document_id}", response_model=Document)
 def get_document(
     document_id: int,
@@ -92,7 +115,7 @@ def get_document(
     document = (
         db.query(models.Document)
         .filter(models.Document.id == document_id)
-        .first() # returns the first matching row, or None if nothing matches.
+        .first()  # returns the first matching row, or None if nothing matches.
     )
 
     if document is None:
@@ -104,6 +127,8 @@ def get_document(
     return document
 
 # Register a DELETE endpoint where document_id comes from the URL.
+
+
 @app.delete("/documents/{document_id}", response_model=Document)
 def delete_document(
     document_id: int,
@@ -124,6 +149,7 @@ def delete_document(
     db.delete(document)
     db.commit()
     return document
+
 
 @app.post("/documents/{document_id}/analyze")
 def analyze_document(
@@ -169,4 +195,64 @@ Document:
     return {
         "document_id": document.id,
         "analysis": message.content[0].text
+    }
+
+
+@app.post("/rag/ask")
+def ask_question(
+    request: QuestionRequest,
+    db: Session = Depends(get_db)
+):
+    # 1. Retrieve the most relevant chunks
+    chunks = search_similar_chunks(
+        db,
+        request.question,
+        limit=3
+    )
+    if not chunks:
+        raise HTTPException(
+            status_code=404,
+            detail="No indexed documents available for RAG search"
+        )
+
+    # 2. Combine the retrieved chunks into context
+    context_parts = []
+
+    for chunk, document in chunks:
+        context_parts.append(
+        f"""Patient ID: {document.patient_id}
+        Document Type: {document.document_type}
+        Content: {chunk.content}"""
+        )
+
+    context = "\n\n".join(context_parts)
+
+    # 3. Send the retrieved context + question to Claude
+    message = client.messages.create(
+        model="claude-haiku-4-5",
+        max_tokens=500,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""
+Answer the question using only the clinical document context below.
+
+Do not infer or add medical facts that are not present.
+If the context does not contain enough information to answer the question,
+say that the available context does not provide enough information.
+
+Context:
+{context}
+
+Question:
+{request.question}
+"""
+            }
+        ]
+    )
+
+    # 4. Return Claude's answer
+    return {
+        "question": request.question,
+        "answer": message.content[0].text
     }

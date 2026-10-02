@@ -30,3 +30,8 @@ class Document(DocumentCreate):
     # from SQLAlchemy ORM objects using attributes like obj.id.
     class Config:
         from_attributes = True
+
+# Request schema for the RAG question-answering endpoint.
+class QuestionRequest(BaseModel):
+    question: str
+    question: str
