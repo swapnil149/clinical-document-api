@@ -7,7 +7,8 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine
 from app import models
 from app.rag import search_similar_chunks, index_document
-from app.schemas import DocumentCreate, Document, QuestionRequest
+from app.schemas import DocumentCreate, Document, QuestionRequest, AgentRequest
+from app.agent import run_agent
 # Below 3 lines for claude integration
 import os
 from dotenv import load_dotenv
@@ -256,3 +257,9 @@ Question:
         "question": request.question,
         "answer": message.content[0].text
     }
+
+@app.post("/agent/chat")
+def agent_chat(request: AgentRequest):
+    result = run_agent(request.message)
+
+    return result

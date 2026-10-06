@@ -35,3 +35,6 @@ class Document(DocumentCreate):
 class QuestionRequest(BaseModel):
     question: str
     question: str
+
+class AgentRequest(BaseModel):
+    message: str
