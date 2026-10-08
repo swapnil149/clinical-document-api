@@ -7,12 +7,12 @@ from app.rag import search_similar_chunks
 
 @beta_tool
 def get_document(document_id: int) -> str:
-    print(f"TOOL CALLED: get_document({document_id})")
     """Retrieve a clinical document from the database using its document ID.
 
     Args:
         document_id: The database ID of the clinical document.
     """
+    print(f"TOOL CALLED: get_document({document_id})")
 
     db = SessionLocal()
 
@@ -38,12 +38,12 @@ def get_document(document_id: int) -> str:
 
 @beta_tool
 def search_documents(question: str) -> str:
-    print(f"TOOL CALLED: search_documents({question})")
     """Search clinical documents for information relevant to a question.
 
     Args:
         question: The question or information to search for.
     """
+    print(f"TOOL CALLED: search_documents({question})")
 
     db = SessionLocal()
 
