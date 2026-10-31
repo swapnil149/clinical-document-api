@@ -4,3 +4,12 @@ __pycache__/
 .env
 .DS_Store
 .venv312/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
+.terraform.tfstate.lock.info
