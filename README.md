@@ -1,764 +1,254 @@
 # Clinical Document API
 
-A containerized backend API for storing, managing, analyzing, and semantically searching synthetic clinical documents using FastAPI, PostgreSQL, RAG, AWS, and the Anthropic Claude API.
+A backend API for storing, analyzing, and semantically searching **synthetic** clinical documents. It exposes a REST interface built with FastAPI and PostgreSQL, adds retrieval-augmented generation (RAG) with Voyage AI embeddings and pgvector, and uses Anthropic Claude for document analysis, grounded question answering, and a tool-calling agent.
 
-The project demonstrates REST API development, relational database integration, Docker containerization, AWS cloud deployment, secure secret management, logging/monitoring, LLM API integration, and Retrieval-Augmented Generation (RAG).
+The service runs as a container on AWS ECS Fargate with an RDS PostgreSQL database, secrets in AWS Secrets Manager, and logs in CloudWatch. A small Terraform configuration provisions a separate development ECR repository and log group. A stdio MCP server exposes the same document tools to local MCP clients.
 
-The RAG pipeline uses Voyage AI embeddings and PostgreSQL with pgvector to retrieve relevant clinical document context before generating grounded answers with Claude.
-
-> Note: The core API and Claude document-analysis functionality are deployed on AWS. The RAG functionality is currently implemented and tested locally.
+> **Synthetic data only.** This is a portfolio/learning project. Do not store real patient information in it.
 
 ## Tech Stack
 
-## Tech Stack
+| Area | Technology |
+| --- | --- |
+| Language / API | Python 3.12, FastAPI, Pydantic |
+| Database | PostgreSQL, SQLAlchemy (ORM), psycopg2, pgvector |
+| AI | Voyage AI (`voyage-4` embeddings), Anthropic Claude (`claude-haiku-4-5`) |
+| Containers | Docker (deployed as `linux/arm64`) |
+| AWS | ECS Fargate, ECR, RDS PostgreSQL, Secrets Manager, CloudWatch, IAM |
+| Infrastructure as code | Terraform (AWS provider 5.x) |
+| Tooling | MCP Python SDK (stdio server) |
 
-- Python
-- FastAPI
-- PostgreSQL
-- SQLAlchemy
-- psycopg2
-- Pydantic
-- Docker
-- Anthropic Claude API
-- Voyage AI
-- pgvector
-- AWS ECR
-- AWS RDS
-- AWS ECS/Fargate
-- AWS IAM
-- AWS Secrets Manager
-- AWS CloudWatch
+## Architecture
 
-## Project Architecture
+```mermaid
+flowchart LR
+    client["Client / Swagger UI"] -->|HTTP :8000| api
 
-### Local Development
+    subgraph aws["AWS (us-east-1)"]
+        ecr[("ECR<br/>container image")] -.->|image pull| api
+        sm["Secrets Manager<br/>DATABASE_URL, ANTHROPIC_API_KEY,<br/>VOYAGE_API_KEY"] -.->|injected at start| api
+        api["FastAPI container<br/>ECS Fargate"] -->|logs| cw["CloudWatch Logs"]
+        api -->|SQLAlchemy / psycopg2| rds[("RDS PostgreSQL<br/>documents + document_chunks<br/>pgvector")]
+    end
 
-```text
-Client / Swagger UI
-        ↓
-FastAPI
-        ↓
-SQLAlchemy
-        ↓
-psycopg2
-        ↓
-PostgreSQL
-```
-### RAG Architecture
+    api -->|embeddings| voyage["Voyage AI"]
+    api -->|analyze, RAG answer,<br/>agent tool loop| claude["Anthropic Claude"]
 
-The application also supports Retrieval-Augmented Generation (RAG) for question answering across stored clinical documents.
-
-#### Document Indexing
-
-When a new document is created, the document is first stored in PostgreSQL and then indexed for RAG.
-
-```text
-POST /documents
-      ↓
-Store document in PostgreSQL
-      ↓
-Split document into overlapping chunks
-      ↓
-Generate document embeddings with Voyage AI
-      ↓
-Store chunks + embeddings
-      ↓
-PostgreSQL + pgvector
+    mcpclient["Local MCP client"] -->|stdio| mcp["MCP server<br/>(local only)"]
+    mcp --> rds
+    mcp --> voyage
 ```
 
-Each chunk is linked to its original document using `document_id`. The embeddings are stored as 1024-dimensional pgvector vectors.
+**Request flows**
 
-#### Question Answering
+- **Indexing:** `POST /documents` saves the document, splits it into 500-character chunks (100-character overlap), embeds each chunk with Voyage AI, and stores the vectors in the `document_chunks` table (`vector(1024)`).
+- **RAG:** `POST /rag/ask` embeds the question, runs a cosine-distance search with pgvector, joins the top 3 chunks to their parent documents, and asks Claude to answer **only** from that context.
+- **Agent:** `POST /agent/chat` runs a Claude tool loop with two tools, `get_document` and `search_documents`, and returns a structured response.
+- **MCP:** `app/mcp_server.py` is a separate stdio process that reuses the same two tool functions. It is not part of the HTTP API and is not deployed.
 
-When a user asks a question:
+## Features
 
-```text
-POST /rag/ask
-      ↓
-User question
-      ↓
-Generate query embedding with Voyage AI
-      ↓
-Cosine-distance search with pgvector
-      ↓
-Retrieve most relevant document chunks
-      ↓
-Join chunks with parent document metadata
-      ↓
-Build retrieved context
-      ↓
-Send context + question to Claude
-      ↓
-Return grounded answer
-```
-Claude is instructed to answer only from the retrieved clinical document context and to indicate when the available context does not contain enough information.
-
-The RAG functionality is currently implemented and tested locally and has not yet been deployed to AWS.
-
-### AWS Architecture
-
-```text
-                         Amazon ECR
-                             │
-                       Docker image
-                             │
-                             ▼
-Client / Swagger ──► ECS / Fargate
-                             │
-                             ▼
-                     FastAPI Container
-                       │           │
-                       │           │
-                       ▼           ▼
-                  SQLAlchemy    Anthropic
-                       │        Claude API
-                       ▼           ▲
-                   psycopg2        │
-                       │      API key injected
-                       ▼           │
-                PostgreSQL RDS     │
-                                   │
-                         AWS Secrets Manager
-
-FastAPI container logs
-         │
-         ▼
-   AWS CloudWatch
-
-
-The application is deployed on AWS using Amazon ECS with AWS Fargate.
-The Docker image is stored in Amazon ECR and executed as an ECS task using AWS Fargate. The FastAPI application connects to PostgreSQL hosted on Amazon RDS using SQLAlchemy and psycopg2.
-
-Clinical documents can also be analyzed through the Anthropic Claude API. The Anthropic API key is stored in AWS Secrets Manager and securely injected into the ECS container at runtime. Application logs are sent to AWS CloudWatch.
+- **Document CRUD:** create, list, fetch, and delete documents; deleting a document cascades to its chunks.
+- **AI analysis:** `POST /documents/{id}/analyze` summarizes a stored document with Claude, with a prompt that restricts it to stated facts.
+- **Embeddings and semantic search:** automatic indexing on create, pgvector cosine search.
+- **RAG question answering:** grounded answers, with an explicit "insufficient information" path.
+- **Agent tool calling:** Claude chooses between fetching a document by ID and searching by meaning; output is validated against a Pydantic schema (`document_id`, `patient_id`, `document_type`, `answer`).
+- **Upstream error handling:** Claude and Voyage failures return `503` (temporary: rate limits, timeouts, 5xx) or `502` (other API errors) with generic messages, and only the exception type is logged.
+- **MCP server:** exposes `get_document` and `search_documents` over stdio; tool `print` output is redirected to stderr so it cannot corrupt the protocol stream.
 
 ## API Endpoints
 
-The API supports storing, retrieving, deleting, analyzing, and semantically searching clinical documents.
+| Method | Endpoint | Description | Success |
+| --- | --- | --- | --- |
+| GET | `/health` | Liveness check | `200` |
+| POST | `/documents` | Create a document and index it for RAG | `201` |
+| GET | `/documents` | List all documents | `200` |
+| GET | `/documents/{id}` | Get one document | `200` / `404` |
+| DELETE | `/documents/{id}` | Delete a document and its chunks | `200` / `404` |
+| POST | `/documents/{id}/analyze` | Summarize a document with Claude | `200` / `404` |
+| POST | `/rag/ask` | Answer a question using retrieved chunks | `200` / `404` |
+| POST | `/agent/chat` | Tool-calling agent over the documents | `200` |
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET | `/health` | Health check |
-| POST | `/documents` | Create and index a document |
-| GET | `/documents` | Get all documents |
-| GET | `/documents/{id}` | Get a document by ID |
-| DELETE | `/documents/{id}` | Delete a document |
-| POST | `/documents/{id}/analyze` | Analyze a specific clinical document using Claude |
-| POST | `/rag/ask` | Ask questions across indexed documents using RAG |
+Interactive docs are served at `/docs`. The error semantics are:
 
-## Document Model
+- `POST /documents` returns `503` if the document was saved but Voyage indexing failed.
+- `/rag/ask` returns `404` when no indexed documents exist.
+- The Claude-backed routes (`analyze`, `rag/ask`, `agent/chat`) return `502` or `503` on upstream errors.
 
-A clinical document could be:
-- a lab report — blood test results, cholesterol levels, etc.
-- a doctor's note — symptoms, diagnosis, treatment notes
-- a discharge summary — what happened during a hospital stay
-- a radiology report — written results from an X-ray, MRI, CT scan
-- a prescription/medication record
-A clinical document contains:
-
-```json
-{
-  "patient_id": "patient-001",
-  "document_type": "lab-report",
-  "content": "Clinical document content"
-}
-```
-A stored document also contains an automatically generated ID.
-
-Example:
-
-```json
-{
-  "id": 1,
-  "patient_id": "patient-001",
-  "document_type": "lab-report",
-  "content": "Clinical document content"
-}
-```
-
-## AI Document Analysis
-
-The API supports AI-powered analysis of stored clinical documents using the Anthropic Claude API.
-
-Request flow:
-
-POST /documents/{id}/analyze
-        ↓
-FastAPI
-        ↓
-Retrieve document from PostgreSQL RDS
-        ↓
-Send document content to Claude
-        ↓
-Generate clinical summary
-        ↓
-Return analysis as JSON
-Example:
-{
-  "document_id": 4,
-  "analysis": "Clinical summary generated from the stored document."
-}
-
-## RAG Question Answering
-
-The API also supports question answering across indexed clinical documents using Retrieval-Augmented Generation (RAG).
-
-Unlike `/documents/{id}/analyze`, the user does not need to know which document contains the answer. The application searches the indexed document chunks for relevant context before calling Claude.
-
-Example request:
-
-```json
-{
-  "question": "Which patient reported persistent headaches?"
-}
-```
-
-The application:
-
-1. Generates an embedding for the question using Voyage AI.
-2. Uses pgvector cosine-distance search to retrieve the most relevant document chunks.
-3. Joins the chunks with their parent documents to retrieve metadata such as patient ID and document type.
-4. Provides the retrieved context and question to Claude.
-5. Instructs Claude to answer only from the retrieved context.
-
-Example response:
-
-```json
-{
-  "question": "Which patient reported persistent headaches?",
-  "answer": "According to the clinical document context, Patient P3001 reported persistent headaches for the past three days."
-}
-```
-
-If the retrieved context does not contain enough information, Claude is instructed to state that the available context is insufficient rather than inventing missing clinical details.
-
-## Database
-
-The application uses PostgreSQL as its relational database.
-
-SQLAlchemy is used as the ORM layer, and psycopg2 is used as the PostgreSQL database driver.
-
-```text
-FastAPI
-   ↓
-SQLAlchemy
-   ↓
-psycopg2
-   ↓
-PostgreSQL
-```
-
-The database connection is supplied through the `DATABASE_URL` environment variable.
-
-Example format:
-
-```text
-postgresql://<username>:<password>@<host>:5432/<database_name>
-```
-
-For AWS RDS connections, SSL can be required:
-
-```text
-postgresql://<username>:<password>@<rds-endpoint>:5432/<database_name>?sslmode=require
-```
-
-Real database credentials should never be committed to GitHub.
-
-## Local Setup
-
-### 1. Create a virtual environment
+**Create a document**
 
 ```bash
-python3 -m venv .venv
+curl -X POST http://localhost:8000/documents \
+  -H "Content-Type: application/json" \
+  -d '{"patient_id": "SYNTH-001", "document_type": "discharge_summary",
+       "content": "Synthetic note: admitted with pneumonia, treated with azithromycin for 5 days."}'
 ```
 
-Activate it:
+```json
+{"id": 1, "patient_id": "SYNTH-001", "document_type": "discharge_summary",
+ "content": "Synthetic note: admitted with pneumonia, treated with azithromycin for 5 days."}
+```
+
+**Ask a question (RAG)**
 
 ```bash
+curl -X POST http://localhost:8000/rag/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What antibiotic was used and for how long?"}'
+```
+
+```json
+{"question": "What antibiotic was used and for how long?",
+ "answer": "The patient was treated with azithromycin for 5 days."}
+```
+
+**Agent**
+
+```bash
+curl -X POST http://localhost:8000/agent/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What are the document type and patient ID of document 1?"}'
+```
+
+```json
+{"document_id": 1, "patient_id": "SYNTH-001", "document_type": "discharge_summary",
+ "answer": "Document 1 is a discharge_summary for patient SYNTH-001."}
+```
+
+`POST /documents/{id}/analyze` returns `{"document_id": 1, "analysis": "<summary>"}`.
+
+## Local Development
+
+**Prerequisites:** Python 3.12, PostgreSQL with the [pgvector](https://github.com/pgvector/pgvector) extension available, and API keys for Anthropic and Voyage AI.
+
+```bash
+python3.12 -m venv .venv
 source .venv/bin/activate
-```
-
-### 2. Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure the database
-
-Set a PostgreSQL connection string using `DATABASE_URL`.
-
-Example:
+Create the database and enable the extension. This is a one-time step, because the app creates tables on startup but does not create extensions:
 
 ```bash
-export DATABASE_URL="postgresql://<username>:<password>@localhost:5432/clinical_document_db"
+createdb clinical_document_db
+psql clinical_document_db -c "CREATE EXTENSION IF NOT EXISTS vector;"
 ```
 
-### 4. Run the FastAPI application
+Configure environment variables (a git-ignored `.env` file works; it is loaded with `python-dotenv`):
+
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | SQLAlchemy connection string, e.g. `postgresql://user:password@localhost:5432/clinical_document_db` (use `?sslmode=require` for RDS). Defaults to a local database if unset. |
+| `ANTHROPIC_API_KEY` | Claude access |
+| `VOYAGE_API_KEY` | Voyage AI embeddings |
+
+Run the API:
 
 ```bash
-fastapi dev app/main.py
+fastapi dev app/main.py        # http://localhost:8000/docs
 ```
 
-Swagger documentation will be available at:
+Tables (`documents`, `document_chunks`) are created automatically on startup.
 
-```text
-http://localhost:8000/docs
+**Optional: MCP server**
+
+```bash
+pip install -r requirements-mcp.txt
+python -m app.mcp_server       # stdio transport; register this command in an MCP client
 ```
-
-### 5. Add a Secrets Manager section
-
-This is important enough to document because it's something you can discuss in interviews.
-
-```markdown
-## AWS Secrets Manager
-
-The Anthropic API key is not hard-coded in the application or Docker image.
-
-The key is stored in AWS Secrets Manager and referenced by the ECS task definition.
-AWS Secrets Manager
-        ↓
-ECS Task Execution Role
-        ↓
-ECS/Fargate Task
-        ↓
-ANTHROPIC_API_KEY environment variable
-        ↓
-FastAPI / Anthropic SDK
-
-### 6. Add CloudWatch
-
-Your old Future Work says *“Add logging and monitoring with CloudWatch”*, but you've now done that. :chatgpt-content-reference{index="5"}
-
-Add:
-
-```markdown
-## AWS CloudWatch
-
-The ECS container sends application logs to AWS CloudWatch.
-
-CloudWatch logs were used to diagnose deployment issues including:
-
-- container startup failures
-- PostgreSQL driver configuration errors
-- Anthropic API authentication errors
-
-This allows application failures to be investigated without direct access to the running container.
 
 ## Docker
 
-### Build the Docker image
-
 ```bash
 docker build -t clinical-document-api .
-```
 
-### Run the container
-
-```bash
 docker run -p 8000:8000 \
-  -e DATABASE_URL="<DATABASE_URL>" \
+  -e DATABASE_URL="<database-url>" \
+  -e ANTHROPIC_API_KEY="<anthropic-key>" \
+  -e VOYAGE_API_KEY="<voyage-key>" \
   clinical-document-api
 ```
 
-Port mapping:
+The image is based on `python:3.12-slim` and starts `fastapi run app/main.py --port 8000`. `.env` is excluded from the build context by `.dockerignore`. The ECS task runs on ARM64, so build with `--platform linux/arm64` for deployment. Dependencies in `requirements.txt` are pinned to exact versions.
 
-```text
-Mac port 8000
-      ↓
-Container port 8000
-      ↓
-FastAPI
-```
+## AWS Deployment
 
-Swagger documentation is available at:
+The API runs on **ECS Fargate** (ARM64, 0.25 vCPU, 512 MB) in `us-east-1`, as a single-task ECS service in the default VPC with a public IP and no load balancer.
 
-```text
-http://localhost:8000/docs
-```
+| Component | Role |
+| --- | --- |
+| ECR | Stores the container image, tagged with the Git commit SHA |
+| ECS task definition | Container on port 8000, a Python-based `/health` check, logs to CloudWatch |
+| RDS PostgreSQL | Single-AZ `db.t4g.micro`, 20 GiB, with the `vector` extension enabled |
+| Secrets Manager | `DATABASE_URL`, `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY` injected into the task as environment variables by the task execution role |
+| CloudWatch Logs | Container stdout/stderr, including agent tool-call log lines |
+| Security groups | A dedicated ECS group allows inbound port 8000 from a single IP address; the RDS group allows port 5432 from the ECS group |
 
-## AWS Setup
+Deployment flow: build the ARM64 image, push it to ECR with the commit SHA, register a task definition revision that references the new tag, and update the service.
 
-### IAM
+## Terraform
 
-An IAM development user is used for normal AWS development instead of the AWS root user.
+The `terraform/` directory holds a deliberately small configuration (`versions.tf`, `variables.tf`, `main.tf`, `outputs.tf`; the provider lock file is committed). It authenticates through the AWS CLI profile or environment, with no credentials in code, and uses local state that is git-ignored.
 
-IAM controls:
+**Terraform-managed**
 
-```text
-Who can access AWS
-        +
-What they are allowed to do
-```
+- A separate **development ECR repository** (image scanning on push).
+- A separate **development CloudWatch log group** (14-day retention).
 
-The development user has permissions required for:
+Both are tagged `ManagedBy=terraform`. They are not currently used by the running service.
 
-* Amazon ECR
-* Amazon ECS
-* Amazon RDS
-* Required security group operations
+**Created manually (not managed by Terraform)**
 
-The AWS root user is protected with MFA and is not used for normal project work.
+- ECS cluster, service, and task definitions
+- The production ECR repository and its image tags
+- RDS instance, subnet/network configuration, and security groups
+- Secrets Manager secrets and IAM roles/policies
 
-## AWS CLI
+Importing the manually created resources into Terraform is future work.
 
-The AWS CLI is used to manage AWS resources from the terminal.
+## Testing and Current Status
 
-Verify the configured identity:
+There is **no automated test suite** (unit, integration, or CI) in the repository. Everything below was verified manually with synthetic data.
 
-```bash
-aws sts get-caller-identity --profile clinical-api-dev
-```
+| Area | Implemented | Verified |
+| --- | --- | --- |
+| Document CRUD, health check | Yes | Locally and on the deployed service (`/health`, `GET /documents`, `POST /documents`) |
+| `/documents/{id}/analyze` | Yes | On the deployed service |
+| Embedding and automatic indexing | Yes | On the deployed service (`POST /documents` returned `201`); existing documents backfilled through a one-off ECS task |
+| `/rag/ask` | Yes | On the deployed service: two answerable questions and one unanswerable question (correctly declined) |
+| `/agent/chat` | Yes | On the deployed service: `get_document` calls, a `search_documents` then `get_document` chain, and an unanswerable question (correctly declined); tool calls confirmed in CloudWatch logs |
+| 502/503 upstream error handling | Yes | Locally, using invalid keys and a stubbed Claude endpoint |
+| Docker image | Yes | Built for `linux/arm64`; container startup and endpoints exercised locally and on ECS |
+| MCP server | Yes | Locally over stdio with a real MCP client against a throwaway database: tool discovery, `get_document`, not-found handling, `search_documents`. Not deployed. |
+| Terraform | Yes | `fmt`, `validate`, `plan`, and `apply` completed for the two resources; a subsequent plan showed no changes |
 
-The returned ARN should correspond to the IAM user rather than the AWS root account.
+## Security and Limitations
 
-## Amazon ECR
+**Security measures**
 
-Amazon Elastic Container Registry stores the Docker image in AWS.
+- Synthetic data only; no real patient data should ever be stored.
+- API keys and the database URL are held in Secrets Manager and injected at runtime. They are not in the image or the repository, and `.env`, Terraform state, and `*.tfvars` are git-ignored.
+- Access uses an IAM user with limited permissions rather than the root account.
+- Inbound access to the API is limited to one IP address, and the database accepts connections only from approved sources.
+- Claude prompts instruct the model to use only provided context and to say when information is missing; client-facing errors never include upstream error details.
 
-### Create the ECR repository
+**Limitations**
 
-```bash
-aws ecr create-repository \
-  --repository-name clinical-document-api \
-  --region us-east-1 \
-  --profile clinical-api-dev
-```
-
-### Authenticate Docker to ECR
-
-```bash
-aws ecr get-login-password \
-  --region us-east-1 \
-  --profile clinical-api-dev \
-| docker login \
-  --username AWS \
-  --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
-```
-
-### Tag the local Docker image
-
-```bash
-docker tag clinical-document-api:latest \
-<AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/clinical-document-api:latest
-```
-
-### Push the image to ECR
-
-```bash
-docker push \
-<AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/clinical-document-api:latest
-```
-
-The Docker image is now stored in AWS ECR.
-
-```text
-Local Docker image
-        ↓
-docker tag
-        ↓
-docker push
-        ↓
-Amazon ECR
-```
-
-## Amazon RDS
-
-Amazon RDS is used to run PostgreSQL in AWS.
-
-The project uses a small development configuration:
-
-```text
-Engine: PostgreSQL
-Deployment: Single-AZ
-Instance class: db.t4g.micro
-Storage: General Purpose SSD
-Allocated storage: 20 GiB
-```
-
-A PostgreSQL database named:
-
-```text
-clinical_document_db
-```
-
-is used by the application.
-
-## Security group
-
-A Security Group is essentially a network firewall controlling permitted traffic.
-
-ECS/Fargate Security Group: controls who can reach your FastAPI container. We allowed your current public IP to reach port 8000.
-RDS Security Group: controls who can reach PostgreSQL. We allowed the ECS security group to reach port 5432.
-
-## RDS Security Group
-
-A dedicated security group controls access to PostgreSQL on port 5432.
-
-For development, two types of access may be configured:
-
-1. My current public IP (`/32`)
-   - Allows direct PostgreSQL access from my development machine.
-
-2. ECS task security group
-   - Allows the FastAPI container running on Fargate to connect to RDS.
-
-The application does not require RDS to be open to `0.0.0.0/0`.
-
-The `/32` rule allows direct PostgreSQL connections from only my current public IP address. Separately, the ECS task security group allows the FastAPI container running on Fargate to connect to RDS.
-The `/32` CIDR rule represents one specific public IP address.
-
-If My Public IP Changes
-My public IP address can change over time, for example after switching Wi-Fi networks, restarting the router, or because of changes made by the internet service provider.
-If my public IP changes, the RDS security group may still contain the old IP address. In that case, connections to PostgreSQL can fail with a timeout.
-To update access:
-Open the AWS Console.
-Go to EC2 → Security Groups.
-Open clinical-document-db-sg.
-Go to Inbound rules → Edit inbound rules.
-Find the PostgreSQL rule for port 5432.
-Change the source to My IP.
-Save the rule.
-
-AWS will replace the old IP with my current public IP.
-This is safer than using 0.0.0.0/0, because 0.0.0.0/0 would allow any IPv4 address on the internet to attempt to connect to the database.
-
-## Connecting to RDS with psql
-
-Example:
-
-```bash
-psql \
-  -h <RDS_ENDPOINT> \
-  -p 5432 \
-  -U postgres \
-  -d clinical_document_db
-```
-
-A successful connection results in a PostgreSQL prompt similar to:
-
-```text
-clinical_document_db=>
-```
-
-## Running Docker Against AWS RDS
-
-The same Docker image can be run with an RDS database by supplying a different `DATABASE_URL`.
-
-```bash
-docker run -p 8000:8000 \
-  -e DATABASE_URL="postgresql://postgres:<PASSWORD>@<RDS_ENDPOINT>:5432/clinical_document_db?sslmode=require" \
-  clinical-document-api
-```
-
-This demonstrates that the Docker image does not need to be rebuilt just because the database location changes.
-
-```text
-Same Docker image
-      ↓
-Different DATABASE_URL
-      ↓
-Different PostgreSQL server
-```
-
-The current working flow is:
-
-```text
-Browser / Swagger
-        ↓
-FastAPI in Docker
-        ↓
-SQLAlchemy
-        ↓
-psycopg2
-        ↓
-AWS RDS PostgreSQL
-```
-
-## Testing the API
-
-Open:
-
-```text
-http://localhost:8000/docs
-```
-
-Use Swagger UI to test the endpoints.
-
-Example `POST /documents` request:
-
-```json
-{
-  "patient_id": "patient-001",
-  "document_type": "lab-report",
-  "content": "Test document stored in AWS RDS"
-}
-```
-
-Then use:
-
-```text
-GET /documents
-```
-
-to verify that the saved document can be retrieved.
-
-The database can also be checked directly with:
-
-```sql
-SELECT * FROM documents;
-```
-
-## Project Progress
-
-### Day 1 — FastAPI CRUD
-
-Completed:
-
-* Created FastAPI application
-* Added health endpoint
-* Added document CRUD endpoints
-* Added Pydantic request/response models
-* Tested endpoints using Swagger UI
-
-### Day 2 — PostgreSQL and Docker
-
-Completed:
-
-* Installed PostgreSQL
-* Created local PostgreSQL database
-* Added SQLAlchemy ORM
-* Added psycopg2 PostgreSQL driver
-* Added database sessions
-* Replaced in-memory storage with PostgreSQL
-* Dockerized the FastAPI application
-* Connected Docker container to PostgreSQL on the Mac
-* Verified database persistence
-
-### Day 3 — AWS ECR and RDS
-
-Completed:
-
-* Created AWS account
-* Configured AWS Region `us-east-1`
-* Enabled MFA on the root account
-* Created IAM development user
-* Installed and configured AWS CLI
-* Created Amazon ECR repository
-* Authenticated Docker with ECR
-* Tagged and pushed Docker image to ECR
-* Created Amazon RDS PostgreSQL instance
-* Configured RDS security group
-* Connected to RDS using `psql`
-* Created `clinical_document_db`
-* Connected the local Dockerized FastAPI application to AWS RDS
-* Verified the application can store and retrieve data from RDS
-
-### Day 4 — ECS/Fargate Deployment
-
-Completed:
-
-* Created an ECS cluster
-* Created an ECS task definition for the FastAPI container
-* Configured the task to use the Docker image stored in ECR
-* Configured Fargate with 0.25 vCPU and 512 MiB memory
-* Configured container port 8000
-* Configured the `DATABASE_URL` environment variable for RDS
-* Configured VPC networking and security groups
-* Allowed the ECS/Fargate task to connect to RDS on PostgreSQL port 5432
-* Launched the container using AWS Fargate
-* Assigned a public IP to the Fargate task
-* Accessed FastAPI Swagger UI through the Fargate public IP
-* Verified `GET /documents` returns HTTP 200 from the deployed API
-
-### Day 5 — Claude API and AWS Secrets Manager
-
-Completed:
-
-- Integrated the Anthropic Claude API
-- Added `POST /documents/{id}/analyze`
-- Retrieved stored documents from PostgreSQL before analysis
-- Added AWS Secrets Manager for Anthropic API credentials
-- Configured IAM permissions for ECS secret retrieval
-- Injected `ANTHROPIC_API_KEY` into the Fargate container
-- Added CloudWatch logging for the ECS task
-- Diagnosed and fixed a PostgreSQL driver mismatch between local and Docker environments
-- Explicitly configured SQLAlchemy to use psycopg2
-- Fixed ECS Secrets Manager JSON-key extraction
-- Deployed ECS task definition Revision 3
-- Successfully tested end-to-end document analysis through Swagger UI
-
-### Day 6 — Retrieval-Augmented Generation (RAG)
-
-Completed locally:
-
-- Added pgvector support to PostgreSQL
-- Added a `document_chunks` table for storing document chunks and embeddings
-- Implemented overlapping character-based document chunking
-- Integrated Voyage AI for document and query embeddings
-- Automatically index newly created documents for RAG
-- Store 1024-dimensional embeddings using pgvector
-- Implemented cosine-distance vector search for semantic retrieval
-- Joined retrieved chunks with parent documents to include metadata
-- Added `POST /rag/ask` for question answering across indexed documents
-- Integrated retrieved context with Claude for grounded responses
-- Added handling for RAG indexing failures
-- Added handling for an empty RAG index
-- Configured cascade deletion so deleting a document also removes its indexed chunks
-- Tested automatic indexing, semantic retrieval, grounded question answering, missing-information behavior, and cascade deletion
-
-The RAG implementation is currently working locally. AWS deployment of the RAG-enabled version is the next step.
-
-## Security Notes
-
-Do not commit any of the following to GitHub:
-
-```text
-AWS access keys
-AWS secret access keys
-AWS temporary tokens
-RDS passwords
-real DATABASE_URL values containing passwords
-.env files containing secrets
-```
-
-Use environment variables or AWS-managed secret storage for sensitive configuration.
+- **Development-grade deployment:** plain HTTP, a single task, no load balancer, and a public IP that changes whenever the task restarts.
+- **No authentication or authorization** on the API.
+- **No HTTPS** and no custom domain.
+- **Outbound traffic** from the ECS security group is currently unrestricted.
+- **The RDS instance is publicly accessible** (restricted by security group) rather than private-only.
+- **Schema management** uses `create_all` on startup; there are no migrations, and the `vector` extension must be enabled manually.
+- **Retrieval is basic:** fixed-size character chunking, top-3 results, and no vector index or re-ranking.
+- **The agent's structured output** always includes document fields, so it fits questions about a specific document better than open-ended ones.
+- **Terraform state is local**, and most infrastructure is not yet under Terraform.
+- **No CI/CD or automated tests.**
 
 ## Future Work
 
-- Deploy the RAG-enabled application to AWS
-- Manage AWS infrastructure using Terraform
-- Add an Application Load Balancer and HTTPS
-- Move database credentials to AWS Secrets Manager
-- Add authentication and authorization
-- Add database migrations
-- Add automated tests
-- Add CI/CD
-- Add production-grade error handling and retry logic for external API calls
-
-## Troubleshooting
-
-### Swagger UI times out
-
-If the ECS/Fargate task shows `RUNNING` but:
-
-http://<FARGATE_PUBLIC_IP>:8000/docs
-
-times out, check the ECS task security group's inbound rule.
-
-AWS Console:
-EC2 → Security Groups → ECS task security group → Inbound rules
-
-The rule should be:
-
-- Type: Custom TCP
-- Port: 8000
-- Source: My IP
-
-If my public IP has changed:
-1. Click "Edit inbound rules"
-2. Find the port 8000 rule
-3. Change Source to "My IP"
-4. Save rules
-5. Reload Swagger
-
-Reason: `/32` allows only one specific public IP address. My public IP can change, so an old `/32` rule can block access even while the Fargate task is running.
+- Application Load Balancer with HTTPS
+- Authentication and authorization
+- Database migrations (e.g. Alembic) and a private RDS instance
+- Automated tests and CI/CD
+- Remote Terraform state and importing existing infrastructure
