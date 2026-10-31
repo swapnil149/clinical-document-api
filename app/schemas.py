@@ -34,7 +34,6 @@ class Document(DocumentCreate):
 # Request schema for the RAG question-answering endpoint.
 class QuestionRequest(BaseModel):
     question: str
-    question: str
 
 class AgentRequest(BaseModel):
     message: str

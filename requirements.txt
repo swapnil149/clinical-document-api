@@ -1,7 +1,7 @@
-fastapi[standard]
-sqlalchemy
-psycopg2-binary
-anthropic
-python-dotenv
-voyageai
-pgvector
+fastapi[standard]==0.162.0
+sqlalchemy==2.1.6
+psycopg2-binary==2.9.13
+anthropic==2.3.0
+python-dotenv==1.2.4
+voyageai==0.5.0
+pgvector==0.5.1

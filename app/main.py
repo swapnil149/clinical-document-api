@@ -10,9 +10,15 @@ from app.rag import search_similar_chunks, index_document
 from app.schemas import DocumentCreate, Document, QuestionRequest, AgentRequest
 from app.agent import run_agent
 # Below 3 lines for claude integration
+import logging
 import os
+from contextlib import contextmanager
+import anthropic
+import voyageai.error
 from dotenv import load_dotenv
 from anthropic import Anthropic
+
+logger = logging.getLogger(__name__)
 
 # Reads .env
 load_dotenv()
@@ -37,6 +43,39 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+# Errors from Claude or Voyage that are usually temporary: rate limits, timeouts, connection problems and 5xx.
+TRANSIENT_UPSTREAM_ERRORS = (
+    anthropic.RateLimitError,
+    anthropic.APIConnectionError,
+    anthropic.InternalServerError,
+    voyageai.error.RateLimitError,
+    voyageai.error.APIConnectionError,
+    voyageai.error.Timeout,
+    voyageai.error.ServiceUnavailableError,
+    voyageai.error.ServerError,
+    voyageai.error.TryAgain,
+)
+
+
+@contextmanager
+def upstream_errors():
+    # Convert Claude/Voyage API failures into 503 (try again later) or 502 (bad response).
+    # Only the exception type is logged; the client gets a generic message with no internal details.
+    try:
+        yield
+    except (anthropic.APIError, voyageai.error.VoyageError) as exc:
+        logger.error("Upstream API error: %s", type(exc).__name__)
+        if isinstance(exc, TRANSIENT_UPSTREAM_ERRORS):
+            raise HTTPException(
+                status_code=503,
+                detail="An upstream service is temporarily unavailable. Please try again later."
+            ) from None
+        raise HTTPException(
+            status_code=502,
+            detail="An upstream service returned an error."
+        ) from None
 
 
 # Below we have created an object (instance) of that class, and that object represents your web application.
@@ -172,13 +211,14 @@ def analyze_document(
         )
 
     # 3. Send the document content to Claude
-    message = client.messages.create(
-        model="claude-haiku-4-5",
-        max_tokens=500,
-        messages=[
-            {
-                "role": "user",
-                "content": f"""
+    with upstream_errors():
+        message = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=500,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"""
 Summarize the following clinical document.
 
 Use only information explicitly stated in the document.
@@ -188,9 +228,9 @@ If information is missing, do not make assumptions.
 Document:
 {document.content}
 """
-            }
-        ]
-    )
+                }
+            ]
+        )
 
     # 4. Return Claude's response
     return {
@@ -205,11 +245,12 @@ def ask_question(
     db: Session = Depends(get_db)
 ):
     # 1. Retrieve the most relevant chunks
-    chunks = search_similar_chunks(
-        db,
-        request.question,
-        limit=3
-    )
+    with upstream_errors():
+        chunks = search_similar_chunks(
+            db,
+            request.question,
+            limit=3
+        )
     if not chunks:
         raise HTTPException(
             status_code=404,
@@ -229,13 +270,14 @@ def ask_question(
     context = "\n\n".join(context_parts)
 
     # 3. Send the retrieved context + question to Claude
-    message = client.messages.create(
-        model="claude-haiku-4-5",
-        max_tokens=500,
-        messages=[
-            {
-                "role": "user",
-                "content": f"""
+    with upstream_errors():
+        message = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=500,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"""
 Answer the question using only the clinical document context below.
 
 Do not infer or add medical facts that are not present.
@@ -248,9 +290,9 @@ Context:
 Question:
 {request.question}
 """
-            }
-        ]
-    )
+                }
+            ]
+        )
 
     # 4. Return Claude's answer
     return {
@@ -260,6 +302,7 @@ Question:
 
 @app.post("/agent/chat")
 def agent_chat(request: AgentRequest):
-    result = run_agent(request.message)
+    with upstream_errors():
+        result = run_agent(request.message)
 
     return result
