@@ -13,3 +13,7 @@ crash.log
 *.tfvars
 *.tfvars.json
 .terraform.tfstate.lock.info
+
+# RAG evaluation (local only)
+eval/.cache/
+eval/.pgdata/

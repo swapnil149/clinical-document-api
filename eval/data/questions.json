@@ -1,0 +1,471 @@
+[
+  {
+    "id": "q01",
+    "category": "answerable",
+    "question": "What antiplatelet medications was patient P-A101 discharged on?",
+    "gold_docs": [
+      "d01"
+    ],
+    "required_facts": [
+      "aspirin",
+      "clopidogrel"
+    ],
+    "reference_answer": "Aspirin 81 mg and clopidogrel 75 mg daily.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q02",
+    "category": "answerable",
+    "question": "What was the hemoglobin A1c for patient P-A102?",
+    "gold_docs": [
+      "d02"
+    ],
+    "required_facts": [
+      "8\\.4"
+    ],
+    "reference_answer": "8.4 percent.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q03",
+    "category": "answerable",
+    "question": "What was the LDL cholesterol in the fasting lipid panel for patient P-A103?",
+    "gold_docs": [
+      "d03"
+    ],
+    "required_facts": [
+      "165"
+    ],
+    "reference_answer": "165 mg/dL.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q04",
+    "category": "answerable",
+    "question": "How large was the lung nodule on the chest CT for patient P-A104, and what follow-up was recommended?",
+    "gold_docs": [
+      "d04"
+    ],
+    "required_facts": [
+      "6\\s*mm",
+      "12 months|one year|1 year|twelve months"
+    ],
+    "reference_answer": "6 mm nodule in the right upper lobe; follow-up CT chest in 12 months.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q05",
+    "category": "answerable",
+    "question": "Which antibiotic and dose was used to treat patient P-A105's pneumonia?",
+    "gold_docs": [
+      "d05"
+    ],
+    "required_facts": [
+      "levofloxacin",
+      "750"
+    ],
+    "reference_answer": "Levofloxacin 750 mg once daily for five days.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q06",
+    "category": "answerable",
+    "question": "What blood pressure medication was started for patient P-A106?",
+    "gold_docs": [
+      "d06"
+    ],
+    "required_facts": [
+      "lisinopril",
+      "10\\s*mg"
+    ],
+    "reference_answer": "Lisinopril 10 mg once daily.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q07",
+    "category": "answerable",
+    "question": "What anticoagulant was started for patient P-A107 and at what dose?",
+    "gold_docs": [
+      "d07"
+    ],
+    "required_facts": [
+      "apixaban",
+      "5\\s*mg"
+    ],
+    "reference_answer": "Apixaban 5 mg twice daily.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q08",
+    "category": "answerable",
+    "question": "What were the hemoglobin and ferritin values for patient P-A108?",
+    "gold_docs": [
+      "d08"
+    ],
+    "required_facts": [
+      "9\\.8",
+      "ferritin[^.\\n]{0,40}\\b8\\b|\\b8\\s*ng/mL"
+    ],
+    "reference_answer": "Hemoglobin 9.8 g/dL and ferritin 8 ng/mL.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q09",
+    "category": "answerable",
+    "question": "What controller medication and dose does patient P-A109 use for asthma?",
+    "gold_docs": [
+      "d09"
+    ],
+    "required_facts": [
+      "fluticasone",
+      "110"
+    ],
+    "reference_answer": "Fluticasone 110 mcg, two puffs twice daily.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q10",
+    "category": "answerable",
+    "question": "What pain medication was used after patient P-A110's appendectomy?",
+    "gold_docs": [
+      "d10"
+    ],
+    "required_facts": [
+      "acetaminophen"
+    ],
+    "reference_answer": "Acetaminophen; no opioids were prescribed.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q11",
+    "category": "answerable",
+    "question": "What was the ejection fraction of the heart failure patient?",
+    "gold_docs": [
+      "d14"
+    ],
+    "required_facts": [
+      "\\b30\\s*(%|percent)"
+    ],
+    "reference_answer": "30 percent (patient P-A114).",
+    "added_in": "v1"
+  },
+  {
+    "id": "q12",
+    "category": "answerable",
+    "question": "What stage of chronic kidney disease does patient P-A113 have, and what is the eGFR?",
+    "gold_docs": [
+      "d13"
+    ],
+    "required_facts": [
+      "3b",
+      "\\b38\\b"
+    ],
+    "reference_answer": "Stage 3b with an eGFR of 38 mL/min.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q13",
+    "category": "semantic",
+    "question": "Which patient had a heart attack, and what procedure was performed?",
+    "gold_docs": [
+      "d01"
+    ],
+    "required_facts": [
+      "stent|percutaneous|PCI|angioplast"
+    ],
+    "reference_answer": "Patient P-A101 had a STEMI treated with percutaneous coronary intervention and a drug-eluting stent.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q14",
+    "category": "semantic",
+    "question": "Who is taking a blood thinner for an irregular heartbeat?",
+    "gold_docs": [
+      "d07"
+    ],
+    "required_facts": [
+      "P-A107|apixaban"
+    ],
+    "reference_answer": "Patient P-A107, who takes apixaban for atrial fibrillation.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q15",
+    "category": "semantic",
+    "question": "What drug was started for high blood pressure, and what side effect was discussed?",
+    "gold_docs": [
+      "d06"
+    ],
+    "required_facts": [
+      "lisinopril",
+      "cough"
+    ],
+    "reference_answer": "Lisinopril; a dry cough.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q16",
+    "category": "semantic",
+    "question": "Which diabetic patient had episodes of low blood sugar, and what medication were they taking?",
+    "gold_docs": [
+      "d11"
+    ],
+    "required_facts": [
+      "glipizide"
+    ],
+    "reference_answer": "Patient P-A111, taking glipizide 5 mg daily.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q17",
+    "category": "semantic",
+    "question": "What is the pneumonia patient allergic to?",
+    "gold_docs": [
+      "d05"
+    ],
+    "required_facts": [
+      "penicillin"
+    ],
+    "reference_answer": "Penicillin, which causes a rash.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q18",
+    "category": "semantic",
+    "question": "Which patient was told to avoid anti-inflammatory painkillers, and why?",
+    "gold_docs": [
+      "d13"
+    ],
+    "required_facts": [
+      "P-A113|kidney|CKD|renal",
+      "kidney|renal|CKD|GFR"
+    ],
+    "reference_answer": "Patient P-A113, because NSAIDs can worsen kidney function in chronic kidney disease.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q19",
+    "category": "semantic",
+    "question": "Which patient with a weak heart was given a water pill, and how much weight did they lose?",
+    "gold_docs": [
+      "d14"
+    ],
+    "required_facts": [
+      "furosemide",
+      "4\\s*kg|92[^.]{0,40}88"
+    ],
+    "reference_answer": "Patient P-A114 received furosemide and lost 4 kg (92 kg to 88 kg).",
+    "added_in": "v1"
+  },
+  {
+    "id": "q20",
+    "category": "semantic",
+    "question": "Which imaging study showed no abnormality in a patient evaluated for headaches?",
+    "gold_docs": [
+      "d12"
+    ],
+    "required_facts": [
+      "MRI"
+    ],
+    "reference_answer": "The brain MRI for patient P-A112 was normal.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q21",
+    "category": "semantic",
+    "question": "Between the two patients with type 2 diabetes who report their A1c, which has better glycemic control?",
+    "gold_docs": [
+      "d02",
+      "d11"
+    ],
+    "required_facts": [
+      "P-A111|7\\.2"
+    ],
+    "reference_answer": "Patient P-A111 (A1c 7.2 percent) has better control than P-A102 (A1c 8.4 percent).",
+    "added_in": "v1"
+  },
+  {
+    "id": "q22",
+    "category": "semantic",
+    "question": "Does the patient who was treated for pneumonia have diabetes?",
+    "gold_docs": [
+      "d05"
+    ],
+    "required_facts": [
+      "no history of diabetes|does not have diabetes|no diabetes|not have (a )?(history of )?diabetes|^no\\b|\\bno,"
+    ],
+    "reference_answer": "No; the note states no history of diabetes.",
+    "added_in": "v1"
+  },
+  {
+    "id": "q23",
+    "category": "unanswerable",
+    "question": "What is patient P-A101's blood type?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented.",
+    "added_in": "v1",
+    "related_docs": [
+      "d01"
+    ]
+  },
+  {
+    "id": "q24",
+    "category": "unanswerable",
+    "question": "What insulin dose does patient P-A102 take?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented; the note lists no insulin.",
+    "added_in": "v1",
+    "related_docs": [
+      "d02"
+    ]
+  },
+  {
+    "id": "q25",
+    "category": "unanswerable",
+    "question": "What did the colonoscopy show for patient P-A108?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented; only a referral is recorded.",
+    "added_in": "v1",
+    "related_docs": [
+      "d08"
+    ]
+  },
+  {
+    "id": "q26",
+    "category": "unanswerable",
+    "question": "What is the normal reference range for hemoglobin A1c?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not in the documents (general knowledge only).",
+    "added_in": "v1",
+    "related_docs": []
+  },
+  {
+    "id": "q27",
+    "category": "unanswerable",
+    "question": "What medications is patient P-A150 taking?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "No such patient in the documents.",
+    "added_in": "v1",
+    "related_docs": []
+  },
+  {
+    "id": "q28",
+    "category": "unanswerable",
+    "question": "What is the smoking history of patient P-A109?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented for P-A109.",
+    "added_in": "v1",
+    "related_docs": [
+      "d09"
+    ]
+  },
+  {
+    "id": "q29",
+    "category": "unanswerable",
+    "question": "Who was the surgeon for patient P-A110's appendectomy?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented.",
+    "added_in": "v1",
+    "related_docs": [
+      "d10"
+    ]
+  },
+  {
+    "id": "q30",
+    "category": "unanswerable",
+    "question": "What insurance provider does patient P-A103 have?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented.",
+    "added_in": "v1",
+    "related_docs": [
+      "d03"
+    ]
+  },
+  {
+    "id": "q31",
+    "category": "answerable",
+    "question": "What follow-up imaging was recommended for patient P-A104?",
+    "gold_docs": [
+      "d04"
+    ],
+    "required_facts": [
+      "12 months|one year|1 year|twelve months"
+    ],
+    "reference_answer": "Follow-up CT chest in 12 months.",
+    "added_in": "v2"
+  },
+  {
+    "id": "q32",
+    "category": "semantic",
+    "question": "Which patients are taking lisinopril?",
+    "gold_docs": [
+      "d06",
+      "d13"
+    ],
+    "required_facts": [
+      "P-A106",
+      "P-A113"
+    ],
+    "reference_answer": "Patients P-A106 (lisinopril started) and P-A113 (lisinopril continued).",
+    "added_in": "v2"
+  },
+  {
+    "id": "q33",
+    "category": "semantic",
+    "question": "Which patient is on warfarin, and what was their INR?",
+    "gold_docs": [
+      "d19"
+    ],
+    "required_facts": [
+      "warfarin",
+      "2\\.4"
+    ],
+    "reference_answer": "Patient P-A124, with an INR of 2.4.",
+    "added_in": "v2"
+  },
+  {
+    "id": "q34",
+    "category": "semantic",
+    "question": "Which patient reported an allergy to sulfa drugs?",
+    "gold_docs": [
+      "d20"
+    ],
+    "required_facts": [
+      "P-A125"
+    ],
+    "reference_answer": "Patient P-A125 (sulfa drugs cause hives).",
+    "added_in": "v2"
+  },
+  {
+    "id": "q35",
+    "category": "unanswerable",
+    "question": "What is the INR for patient P-A107?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented; the note says routine INR monitoring is not required with apixaban.",
+    "added_in": "v2",
+    "related_docs": [
+      "d07"
+    ]
+  },
+  {
+    "id": "q36",
+    "category": "unanswerable",
+    "question": "What dose of lisinopril is patient P-A113 taking?",
+    "gold_docs": [],
+    "required_facts": [],
+    "reference_answer": "Not documented; the note only says to continue lisinopril.",
+    "added_in": "v2",
+    "related_docs": [
+      "d13"
+    ]
+  }
+]

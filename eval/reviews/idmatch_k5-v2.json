@@ -1,0 +1,11 @@
+{
+  "q05": {
+    "correct": true,
+    "grounded": true,
+    "note": "Judge response was unparseable (it printed a verdict, then reconsidered). Reviewed manually against the retrieved chunks: levofloxacin 750 mg once daily is stated in the context; answer is correct and grounded."
+  },
+  "q35": {
+    "grounded": false,
+    "note": "Reviewed manually: correct abstention, but the answer adds outside medical knowledge (apixaban is a direct oral anticoagulant, unlike warfarin) that is not in the retrieved notes. Groundedness failure confirmed."
+  }
+}

@@ -1,0 +1,1806 @@
+{
+  "meta": {
+    "name": "headers_k5-v2",
+    "timestamp": "2026-11-01T02:28:47+00:00",
+    "git": {
+      "commit": "f3859d5",
+      "app_modified_since_commit": true
+    },
+    "sample": 0,
+    "embedding_model": "voyage-4",
+    "answer_model": "claude-haiku-4-5",
+    "judge_model": "claude-haiku-4-5",
+    "chunk_size": 500,
+    "chunk_overlap": 100,
+    "dataset": "v2",
+    "variant": "headers_k5",
+    "embed_metadata_header": true,
+    "retrieval_limit": 5,
+    "documents": 32,
+    "chunks": 36,
+    "api_usage": {
+      "voyage_live": 0,
+      "voyage_cached": 108,
+      "claude_live": 72,
+      "claude_cached": 0
+    }
+  },
+  "aggregate": {
+    "questions": 36,
+    "scored": 36,
+    "api_errors": 0,
+    "judge_errors": 0,
+    "retrieval": {
+      "recall_at_3": 0.9808,
+      "hit_rate_at_3": 1.0,
+      "questions_with_gold": 26,
+      "recall_at_k": 1.0,
+      "unanswerable_related_doc_hit_at_3": 0.625,
+      "unanswerable_related_doc_hit_at_k": 0.75,
+      "unanswerable_with_related_doc": 8
+    },
+    "answer_correctness_answerable": 1.0,
+    "groundedness_all": 1.0,
+    "groundedness_non_abstained": 1.0,
+    "abstention_accuracy": 1.0,
+    "correct_abstention_on_unanswerable": 1.0,
+    "false_abstention_on_answerable": 0.0,
+    "overall_correct": 1.0,
+    "by_category": {
+      "answerable": {
+        "n": 13,
+        "scored": 13,
+        "recall_at_3": 1.0,
+        "correct": 1.0,
+        "grounded": 1.0
+      },
+      "semantic": {
+        "n": 13,
+        "scored": 13,
+        "recall_at_3": 0.9615,
+        "correct": 1.0,
+        "grounded": 1.0
+      },
+      "unanswerable": {
+        "n": 10,
+        "scored": 10,
+        "recall_at_3": null,
+        "correct": 1.0,
+        "grounded": 1.0
+      }
+    },
+    "review": {
+      "reviewed": 0,
+      "flagged_unreviewed": 0
+    },
+    "median_latency_s": 1.44
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "category": "answerable",
+      "question": "What antiplatelet medications was patient P-A101 discharged on?",
+      "gold_docs": [
+        "d01"
+      ],
+      "retrieved_docs": [
+        "d01",
+        "d07",
+        "d01",
+        "d14",
+        "d07"
+      ],
+      "retrieved_chunks": [
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days witho",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece"
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the discharge summary for patient P-A101, the antiplatelet medications prescribed at discharge were:\n\n1. **Aspirin 81 mg daily**\n2. **Clopidogrel 75 mg daily**",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.54,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q02",
+      "category": "answerable",
+      "question": "What was the hemoglobin A1c for patient P-A102?",
+      "gold_docs": [
+        "d02"
+      ],
+      "retrieved_docs": [
+        "d02",
+        "d11",
+        "d17",
+        "d03",
+        "d31"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A103. Total cholesterol 242 mg/dL, LDL cholesterol 165 mg/dL, HDL cholesterol 38 mg/dL, triglycerides 195 mg/dL. Results are above goal for LDL. Recommend lifestyle changes and discussion of statin therapy at the next visit. Fasting duration 12 hours.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document for patient P-A102, the hemoglobin A1c is **8.4 percent**, which is above the target of 7 percent.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.33,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q03",
+      "category": "answerable",
+      "question": "What was the LDL cholesterol in the fasting lipid panel for patient P-A103?",
+      "gold_docs": [
+        "d03"
+      ],
+      "retrieved_docs": [
+        "d03",
+        "d24",
+        "d29",
+        "d28",
+        "d06"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Fasting lipid panel for patient P-A103. Total cholesterol 242 mg/dL, LDL cholesterol 165 mg/dL, HDL cholesterol 38 mg/dL, triglycerides 195 mg/dL. Results are above goal for LDL. Recommend lifestyle changes and discussion of statin therapy at the next visit. Fasting duration 12 hours.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A129. Total cholesterol 178 mg/dL, LDL cholesterol 98 mg/dL, HDL cholesterol 55 mg/dL, triglycerides 120 mg/dL. All values within goal.",
+        "SYNTHETIC. Patient P-A134 seen for hyperlipidemia. Started rosuvastatin 20 mg nightly. Counseled on diet. Repeat lipid panel in 12 weeks.",
+        "SYNTHETIC. Complete blood count for patient P-A133. Hemoglobin 14.1 g/dL, mean corpuscular volume 90 fL, ferritin 85 ng/mL. All values within normal limits.",
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the lab report for patient P-A103, the LDL cholesterol was **165 mg/dL**.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.19,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q04",
+      "category": "answerable",
+      "question": "How large was the lung nodule on the chest CT for patient P-A104, and what follow-up was recommended?",
+      "gold_docs": [
+        "d04"
+      ],
+      "retrieved_docs": [
+        "d04",
+        "d16",
+        "d15",
+        "d05",
+        "d10"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months.",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A121. A 9 mm ground-glass nodule is present in the left lower lobe. No lymphadenopathy. Impression: ground-glass nodule, possibly infectious or inflammatory. Recommend follow-up CT chest in 3 months.",
+        "SYNTHETIC. CT of the abdomen and pelvis with contrast for patient P-A120. A 4 mm nonobstructing stone is present in the right kidney. No hydronephrosis. Appendix, bowel, liver and pancreas are unremarkable. Impression: nonobstructing right renal calculus. Follow up with urology if flank pain recurs.",
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "SYNTHETIC. Patient P-A110 underwent laparoscopic appendectomy for acute appendicitis. The operation was uncomplicated. Pain was controlled with acetaminophen; no opioids were prescribed at discharge. Discharged on the day after surgery. Wound check in 10 days. May return to work in two weeks."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document for patient P-A104:\n\n- **Size of nodule:** 6 mm solid nodule in the right upper lobe\n- **Recommended follow-up:** CT chest in 12 months",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.38,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q05",
+      "category": "answerable",
+      "question": "Which antibiotic and dose was used to treat patient P-A105's pneumonia?",
+      "gold_docs": [
+        "d05"
+      ],
+      "retrieved_docs": [
+        "d05",
+        "d05",
+        "d20",
+        "d26",
+        "d09"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "ses a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document, patient P-A105 was treated with **levofloxacin 750 mg once daily for five days** for pneumonia. This antibiotic was chosen because the patient has a penicillin allergy that causes a rash, making beta-lactam antibiotics unsuitable.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.62,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q06",
+      "category": "answerable",
+      "question": "What blood pressure medication was started for patient P-A106?",
+      "gold_docs": [
+        "d06"
+      ],
+      "retrieved_docs": [
+        "d06",
+        "d31",
+        "d32",
+        "d18",
+        "d14"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A123 seen for hypertension follow-up. Blood pressure is well controlled at 124/78 mmHg on amlodipine 5 mg daily. Continue the current regimen. No side effects reported. Follow-up in six months.",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context, **lisinopril 10 mg once daily** was started for patient P-A106.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.23,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q07",
+      "category": "answerable",
+      "question": "What anticoagulant was started for patient P-A107 and at what dose?",
+      "gold_docs": [
+        "d07"
+      ],
+      "retrieved_docs": [
+        "d07",
+        "d07",
+        "d19",
+        "d32",
+        "d01"
+      ],
+      "retrieved_chunks": [
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece",
+        "SYNTHETIC. Patient P-A124 is maintained on warfarin after a prior deep vein thrombosis. INR today is 2.4, within the target range of 2.0 to 3.0. No dose change. Next INR check in four weeks.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document, **apixaban 5 mg twice daily** was started for patient P-A107 to reduce stroke risk.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.31,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q08",
+      "category": "answerable",
+      "question": "What were the hemoglobin and ferritin values for patient P-A108?",
+      "gold_docs": [
+        "d08"
+      ],
+      "retrieved_docs": [
+        "d08",
+        "d28",
+        "d24",
+        "d03",
+        "d02"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Complete blood count and iron studies for patient P-A108. Hemoglobin 9.8 g/dL (low), mean corpuscular volume 72 fL (low), ferritin 8 ng/mL (low). Findings are consistent with iron deficiency anemia. Started ferrous sulfate 325 mg once daily. Referred for colonoscopy to evaluate for a source of chronic blood loss. Recheck hemoglobin in eight weeks.",
+        "SYNTHETIC. Complete blood count for patient P-A133. Hemoglobin 14.1 g/dL, mean corpuscular volume 90 fL, ferritin 85 ng/mL. All values within normal limits.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A129. Total cholesterol 178 mg/dL, LDL cholesterol 98 mg/dL, HDL cholesterol 55 mg/dL, triglycerides 120 mg/dL. All values within goal.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A103. Total cholesterol 242 mg/dL, LDL cholesterol 165 mg/dL, HDL cholesterol 38 mg/dL, triglycerides 195 mg/dL. Results are above goal for LDL. Recommend lifestyle changes and discussion of statin therapy at the next visit. Fasting duration 12 hours.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document for patient P-A108:\n\n- **Hemoglobin**: 9.8 g/dL (low)\n- **Ferritin**: 8 ng/mL (low)",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.32,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q09",
+      "category": "answerable",
+      "question": "What controller medication and dose does patient P-A109 use for asthma?",
+      "gold_docs": [
+        "d09"
+      ],
+      "retrieved_docs": [
+        "d09",
+        "d26",
+        "d30",
+        "d20",
+        "d31"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "SYNTHETIC. Patient P-A135 seen for allergic rhinitis. Allergy: pollen. Prescribed fluticasone nasal spray, two sprays per nostril daily. Avoid known triggers.",
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document for patient P-A109, the controller medication is **fluticasone 110 mcg, two puffs twice daily**.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.36,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q10",
+      "category": "answerable",
+      "question": "What pain medication was used after patient P-A110's appendectomy?",
+      "gold_docs": [
+        "d10"
+      ],
+      "retrieved_docs": [
+        "d10",
+        "d27",
+        "d07",
+        "d05",
+        "d23"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A110 underwent laparoscopic appendectomy for acute appendicitis. The operation was uncomplicated. Pain was controlled with acetaminophen; no opioids were prescribed at discharge. Discharged on the day after surgery. Wound check in 10 days. May return to work in two weeks.",
+        "SYNTHETIC. Patient P-A132 was treated for acute appendicitis with intravenous antibiotics and discharged without surgery. Pain was controlled with ibuprofen. A short course of oxycodone 5 mg as needed was prescribed. Surgery clinic follow-up in two weeks.",
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "ses a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+        "SYNTHETIC. Patient P-A128 seen for knee osteoarthritis. Prescribed ibuprofen 400 mg three times daily with food and referred to physical therapy. Kidney function is normal. Follow-up in six weeks."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document, patient P-A110's pain was controlled with **acetaminophen** after the laparoscopic appendectomy. The document specifically notes that no opioids were prescribed at discharge.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.47,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q11",
+      "category": "answerable",
+      "question": "What was the ejection fraction of the heart failure patient?",
+      "gold_docs": [
+        "d14"
+      ],
+      "retrieved_docs": [
+        "d14",
+        "d22",
+        "d01",
+        "d01",
+        "d14"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A114, a 71-year-old man, was admitted with acute decompensated heart failure with leg swelling and shortness of breath. BNP was 1450 pg/mL and echocardiogram showed a left ventricular ejection fraction of 30 percent. He received intravenous furosemide 40 mg and then oral furosemide 40 mg daily. Weight decreased from 92 kg on admission to 88 kg at discharge. He was discharged on carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liter",
+        "SYNTHETIC. Echocardiogram for patient P-A127 evaluated for palpitations. Left ventricular ejection fraction is 60 percent. Normal chamber sizes and valve function. No evidence of heart failure.",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+        "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days witho",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided, the heart failure patient P-A114 had a left ventricular ejection fraction of **30 percent**, as shown on his echocardiogram during admission for acute decompensated heart failure.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.61,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q12",
+      "category": "answerable",
+      "question": "What stage of chronic kidney disease does patient P-A113 have, and what is the eGFR?",
+      "gold_docs": [
+        "d13"
+      ],
+      "retrieved_docs": [
+        "d13",
+        "d31",
+        "d32",
+        "d01",
+        "d23"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Nephrology consult for patient P-A113 with chronic kidney disease stage 3b. Creatinine 1.9 mg/dL and estimated GFR 38 mL/min. Advised to avoid nonsteroidal anti-inflammatory drugs such as ibuprofen because they can worsen kidney function. Continue lisinopril for kidney protection. Low-potassium diet recommended. Repeat labs in three months.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days witho",
+        "SYNTHETIC. Patient P-A128 seen for knee osteoarthritis. Prescribed ibuprofen 400 mg three times daily with food and referred to physical therapy. Kidney function is normal. Follow-up in six weeks."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document context, patient P-A113 has **chronic kidney disease stage 3b** with an **estimated GFR of 38 mL/min**.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.34,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q13",
+      "category": "semantic",
+      "question": "Which patient had a heart attack, and what procedure was performed?",
+      "gold_docs": [
+        "d01"
+      ],
+      "retrieved_docs": [
+        "d01",
+        "d01",
+        "d21",
+        "d07",
+        "d32"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days witho",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+        "SYNTHETIC. Patient P-A126 presented with chest pain and was evaluated for acute coronary syndrome. Serial troponin levels were negative and the ECG was unchanged. Diagnosis: unstable angina, managed medically without a heart attack. Started on aspirin 81 mg daily and nitroglycerin as needed. Outpatient stress test scheduled.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided:\n\n**Patient P-A101** had a heart attack (acute ST-elevation myocardial infarction).\n\n**Procedure performed:** Percutaneous coronary intervention (PCI) with placement of one drug-eluting stent. This was performed after emergency coronary angiography revealed a 95 percent occlusion of the left anterior descending artery.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.41,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q14",
+      "category": "semantic",
+      "question": "Who is taking a blood thinner for an irregular heartbeat?",
+      "gold_docs": [
+        "d07"
+      ],
+      "retrieved_docs": [
+        "d07",
+        "d07",
+        "d19",
+        "d01",
+        "d32"
+      ],
+      "retrieved_chunks": [
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece",
+        "SYNTHETIC. Patient P-A124 is maintained on warfarin after a prior deep vein thrombosis. INR today is 2.4, within the target range of 2.0 to 3.0. No dose change. Next INR check in four weeks.",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided, **Patient P-A107** is taking a blood thinner for an irregular heartbeat. \n\nThe document states that this 74-year-old woman has newly detected atrial fibrillation with a rapid ventricular rate, and she was started on **apixaban 5 mg twice daily** for anticoagulation to reduce stroke risk.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.74,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q15",
+      "category": "semantic",
+      "question": "What drug was started for high blood pressure, and what side effect was discussed?",
+      "gold_docs": [
+        "d06"
+      ],
+      "retrieved_docs": [
+        "d06",
+        "d31",
+        "d32",
+        "d18",
+        "d14"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A123 seen for hypertension follow-up. Blood pressure is well controlled at 124/78 mmHg on amlodipine 5 mg daily. Continue the current regimen. No side effects reported. Follow-up in six months.",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context provided:\n\n**Drug started:** Lisinopril 10 mg once daily\n\n**Side effect discussed:** A dry cough was discussed as a possible side effect of lisinopril, and the patient was instructed to report it if it occurs.\n\nThis information is from Patient P-A106's progress note.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.57,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q16",
+      "category": "semantic",
+      "question": "Which diabetic patient had episodes of low blood sugar, and what medication were they taking?",
+      "gold_docs": [
+        "d11"
+      ],
+      "retrieved_docs": [
+        "d11",
+        "d17",
+        "d02",
+        "d14",
+        "d06"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week.",
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context, **Patient P-A111** had episodes of low blood sugar and was taking **glipizide 5 mg daily**.\n\nThe progress note specifically states that the patient \"reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals.\"",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.43,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q17",
+      "category": "semantic",
+      "question": "What is the pneumonia patient allergic to?",
+      "gold_docs": [
+        "d05"
+      ],
+      "retrieved_docs": [
+        "d05",
+        "d20",
+        "d30",
+        "d05",
+        "d26"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+        "SYNTHETIC. Patient P-A135 seen for allergic rhinitis. Allergy: pollen. Prescribed fluticasone nasal spray, two sprays per nostril daily. Avoid known triggers.",
+        "ses a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context, the pneumonia patient (P-A105) is allergic to **penicillin**, which causes a rash.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.19,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q18",
+      "category": "semantic",
+      "question": "Which patient was told to avoid anti-inflammatory painkillers, and why?",
+      "gold_docs": [
+        "d13"
+      ],
+      "retrieved_docs": [
+        "d13",
+        "d23",
+        "d27",
+        "d07",
+        "d20"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Nephrology consult for patient P-A113 with chronic kidney disease stage 3b. Creatinine 1.9 mg/dL and estimated GFR 38 mL/min. Advised to avoid nonsteroidal anti-inflammatory drugs such as ibuprofen because they can worsen kidney function. Continue lisinopril for kidney protection. Low-potassium diet recommended. Repeat labs in three months.",
+        "SYNTHETIC. Patient P-A128 seen for knee osteoarthritis. Prescribed ibuprofen 400 mg three times daily with food and referred to physical therapy. Kidney function is normal. Follow-up in six weeks.",
+        "SYNTHETIC. Patient P-A132 was treated for acute appendicitis with intravenous antibiotics and discharged without surgery. Pain was controlled with ibuprofen. A short course of oxycodone 5 mg as needed was prescribed. Surgery clinic follow-up in two weeks.",
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context:\n\n**Patient P-A113** was told to avoid anti-inflammatory painkillers (specifically nonsteroidal anti-inflammatory drugs such as ibuprofen).\n\n**Reason:** Because they can worsen kidney function. This patient has chronic kidney disease stage 3b with a creatinine of 1.9 mg/dL and estimated GFR of 38 mL/min.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.73,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q19",
+      "category": "semantic",
+      "question": "Which patient with a weak heart was given a water pill, and how much weight did they lose?",
+      "gold_docs": [
+        "d14"
+      ],
+      "retrieved_docs": [
+        "d14",
+        "d14",
+        "d06",
+        "d32",
+        "d31"
+      ],
+      "retrieved_chunks": [
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week.",
+        "SYNTHETIC. Patient P-A114, a 71-year-old man, was admitted with acute decompensated heart failure with leg swelling and shortness of breath. BNP was 1450 pg/mL and echocardiogram showed a left ventricular ejection fraction of 30 percent. He received intravenous furosemide 40 mg and then oral furosemide 40 mg daily. Weight decreased from 92 kg on admission to 88 kg at discharge. He was discharged on carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liter",
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context provided:\n\n**Patient P-A114** is the patient with a weak heart (left ventricular ejection fraction of 30 percent) who was given a water pill (furosemide).\n\n**Weight loss: 4 kg** (from 92 kg on admission to 88 kg at discharge)",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.64,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q20",
+      "category": "semantic",
+      "question": "Which imaging study showed no abnormality in a patient evaluated for headaches?",
+      "gold_docs": [
+        "d12"
+      ],
+      "retrieved_docs": [
+        "d12",
+        "d22",
+        "d04",
+        "d15",
+        "d25"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. MRI of the brain with and without contrast for patient P-A112, evaluated for recurrent headaches. No mass, hemorrhage, or acute infarct. Ventricles are normal in size. Mild mucosal thickening in the maxillary sinuses. Impression: normal brain MRI.",
+        "SYNTHETIC. Echocardiogram for patient P-A127 evaluated for palpitations. Left ventricular ejection fraction is 60 percent. Normal chamber sizes and valve function. No evidence of heart failure.",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months.",
+        "SYNTHETIC. CT of the abdomen and pelvis with contrast for patient P-A120. A 4 mm nonobstructing stone is present in the right kidney. No hydronephrosis. Appendix, bowel, liver and pancreas are unremarkable. Impression: nonobstructing right renal calculus. Follow up with urology if flank pain recurs.",
+        "SYNTHETIC. MRI of the right knee without contrast for patient P-A130. Complex tear of the medial meniscus. Mild joint effusion. Anterior cruciate ligament is intact. Impression: medial meniscal tear."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context provided, **patient P-A112 underwent an MRI of the brain** that showed no abnormality in a patient evaluated for recurrent headaches. \n\nThe report states: \"No mass, hemorrhage, or acute infarct. Ventricles are normal in size\" with an impression of \"normal brain MRI.\" The only finding noted was mild mucosal thickening in the maxillary sinuses, which is not a brain abnormality related to headaches.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 2.05,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q21",
+      "category": "semantic",
+      "question": "Between the two patients with type 2 diabetes who report their A1c, which has better glycemic control?",
+      "gold_docs": [
+        "d02",
+        "d11"
+      ],
+      "retrieved_docs": [
+        "d11",
+        "d02",
+        "d17",
+        "d24",
+        "d29"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A129. Total cholesterol 178 mg/dL, LDL cholesterol 98 mg/dL, HDL cholesterol 55 mg/dL, triglycerides 120 mg/dL. All values within goal.",
+        "SYNTHETIC. Patient P-A134 seen for hyperlipidemia. Started rosuvastatin 20 mg nightly. Counseled on diet. Repeat lipid panel in 12 weeks."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided:\n\n**Patient P-A111 has better glycemic control** with a Hemoglobin A1c of 7.2 percent, compared to Patient P-A102 who has an A1c of 8.4 percent.\n\nPatient P-A111's A1c is closer to the typical target goal, while Patient P-A102's A1c of 8.4 percent is noted in the document as being \"above the target of 7 percent.\"",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.94,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q22",
+      "category": "semantic",
+      "question": "Does the patient who was treated for pneumonia have diabetes?",
+      "gold_docs": [
+        "d05"
+      ],
+      "retrieved_docs": [
+        "d05",
+        "d02",
+        "d17",
+        "d26",
+        "d11"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical document context provided, **no**, the patient who was treated for pneumonia (Patient P-A105) does not have diabetes. The discharge summary explicitly states: \"The patient has no history of diabetes.\"",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.44,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q23",
+      "category": "unanswerable",
+      "question": "What is patient P-A101's blood type?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d28",
+        "d17",
+        "d02",
+        "d08",
+        "d11"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Complete blood count for patient P-A133. Hemoglobin 14.1 g/dL, mean corpuscular volume 90 fL, ferritin 85 ng/mL. All values within normal limits.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Complete blood count and iron studies for patient P-A108. Hemoglobin 9.8 g/dL (low), mean corpuscular volume 72 fL (low), ferritin 8 ng/mL (low). Findings are consistent with iron deficiency anemia. Started ferrous sulfate 325 mg once daily. Referred for colonoscopy to evaluate for a source of chronic blood loss. Recheck hemoglobin in eight weeks.",
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d01"
+      ],
+      "related_hit_at_3": false,
+      "related_hit_at_k": false,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. There is no document for patient P-A101 in the provided clinical records.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.22,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q24",
+      "category": "unanswerable",
+      "question": "What insulin dose does patient P-A102 take?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d17",
+        "d02",
+        "d11",
+        "d31",
+        "d09"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d02"
+      ],
+      "related_hit_at_3": true,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. \n\nPatient P-A102's progress note indicates that the current regimen is metformin 1000 mg twice daily and that empagliflozin 10 mg daily was added, but there is no mention of insulin dosing for this patient.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.64,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q25",
+      "category": "unanswerable",
+      "question": "What did the colonoscopy show for patient P-A108?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d08",
+        "d15",
+        "d04",
+        "d10",
+        "d16"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Complete blood count and iron studies for patient P-A108. Hemoglobin 9.8 g/dL (low), mean corpuscular volume 72 fL (low), ferritin 8 ng/mL (low). Findings are consistent with iron deficiency anemia. Started ferrous sulfate 325 mg once daily. Referred for colonoscopy to evaluate for a source of chronic blood loss. Recheck hemoglobin in eight weeks.",
+        "SYNTHETIC. CT of the abdomen and pelvis with contrast for patient P-A120. A 4 mm nonobstructing stone is present in the right kidney. No hydronephrosis. Appendix, bowel, liver and pancreas are unremarkable. Impression: nonobstructing right renal calculus. Follow up with urology if flank pain recurs.",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months.",
+        "SYNTHETIC. Patient P-A110 underwent laparoscopic appendectomy for acute appendicitis. The operation was uncomplicated. Pain was controlled with acetaminophen; no opioids were prescribed at discharge. Discharged on the day after surgery. Wound check in 10 days. May return to work in two weeks.",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A121. A 9 mm ground-glass nodule is present in the left lower lobe. No lymphadenopathy. Impression: ground-glass nodule, possibly infectious or inflammatory. Recommend follow-up CT chest in 3 months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d08"
+      ],
+      "related_hit_at_3": true,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. The lab report for patient P-A108 indicates that a colonoscopy was ordered to evaluate for a source of chronic blood loss, but the results of that colonoscopy are not included in the provided clinical documents.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.55,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q26",
+      "category": "unanswerable",
+      "question": "What is the normal reference range for hemoglobin A1c?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d17",
+        "d02",
+        "d11",
+        "d28",
+        "d24"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+        "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+        "SYNTHETIC. Complete blood count for patient P-A133. Hemoglobin 14.1 g/dL, mean corpuscular volume 90 fL, ferritin 85 ng/mL. All values within normal limits.",
+        "SYNTHETIC. Fasting lipid panel for patient P-A129. Total cholesterol 178 mg/dL, LDL cholesterol 98 mg/dL, HDL cholesterol 55 mg/dL, triglycerides 120 mg/dL. All values within goal."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. \n\nWhile the documents mention hemoglobin A1c values and a target of 7 percent for patient P-A102, they do not specify the normal reference range for hemoglobin A1c testing.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.54,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q27",
+      "category": "unanswerable",
+      "question": "What medications is patient P-A150 taking?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d32",
+        "d20",
+        "d26",
+        "d14",
+        "d07"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week.",
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. Patient P-A150 is not included in the clinical documents provided.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.26,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q28",
+      "category": "unanswerable",
+      "question": "What is the smoking history of patient P-A109?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d26",
+        "d09",
+        "d01",
+        "d05",
+        "d04"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed.",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d09"
+      ],
+      "related_hit_at_3": true,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. The progress note for patient P-A109 does not include any information about smoking history. It only mentions that the patient is being seen for asthma follow-up with details about their medications, triggers, and peak flow measurements.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.61,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q29",
+      "category": "unanswerable",
+      "question": "Who was the surgeon for patient P-A110's appendectomy?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d10",
+        "d27",
+        "d05",
+        "d01",
+        "d14"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A110 underwent laparoscopic appendectomy for acute appendicitis. The operation was uncomplicated. Pain was controlled with acetaminophen; no opioids were prescribed at discharge. Discharged on the day after surgery. Wound check in 10 days. May return to work in two weeks.",
+        "SYNTHETIC. Patient P-A132 was treated for acute appendicitis with intravenous antibiotics and discharged without surgery. Pain was controlled with ibuprofen. A short course of oxycodone 5 mg as needed was prescribed. Surgery clinic follow-up in two weeks.",
+        "ses a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+        "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days witho",
+        "n carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d10"
+      ],
+      "related_hit_at_3": true,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. The discharge summary for patient P-A110 documents that a laparoscopic appendectomy was performed for acute appendicitis, but it does not include the name or identity of the surgeon who performed the procedure.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.48,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q30",
+      "category": "unanswerable",
+      "question": "What insurance provider does patient P-A103 have?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d26",
+        "d32",
+        "d17",
+        "d09",
+        "d02"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+        "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d03"
+      ],
+      "related_hit_at_3": false,
+      "related_hit_at_k": false,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. Patient P-A103 is not included in any of the clinical documents provided.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.26,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q31",
+      "category": "answerable",
+      "question": "What follow-up imaging was recommended for patient P-A104?",
+      "gold_docs": [
+        "d04"
+      ],
+      "retrieved_docs": [
+        "d04",
+        "d15",
+        "d16",
+        "d12",
+        "d02"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months.",
+        "SYNTHETIC. CT of the abdomen and pelvis with contrast for patient P-A120. A 4 mm nonobstructing stone is present in the right kidney. No hydronephrosis. Appendix, bowel, liver and pancreas are unremarkable. Impression: nonobstructing right renal calculus. Follow up with urology if flank pain recurs.",
+        "SYNTHETIC. CT of the chest without contrast for patient P-A121. A 9 mm ground-glass nodule is present in the left lower lobe. No lymphadenopathy. Impression: ground-glass nodule, possibly infectious or inflammatory. Recommend follow-up CT chest in 3 months.",
+        "SYNTHETIC. MRI of the brain with and without contrast for patient P-A112, evaluated for recurrent headaches. No mass, hemorrhage, or acute infarct. Ventricles are normal in size. Mild mucosal thickening in the maxillary sinuses. Impression: normal brain MRI.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document for patient P-A104, a follow-up CT chest in 12 months was recommended.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.23,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q32",
+      "category": "semantic",
+      "question": "Which patients are taking lisinopril?",
+      "gold_docs": [
+        "d06",
+        "d13"
+      ],
+      "retrieved_docs": [
+        "d06",
+        "d32",
+        "d31",
+        "d13",
+        "d18"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Nephrology consult for patient P-A113 with chronic kidney disease stage 3b. Creatinine 1.9 mg/dL and estimated GFR 38 mL/min. Advised to avoid nonsteroidal anti-inflammatory drugs such as ibuprofen because they can worsen kidney function. Continue lisinopril for kidney protection. Low-potassium diet recommended. Repeat labs in three months.",
+        "SYNTHETIC. Patient P-A123 seen for hypertension follow-up. Blood pressure is well controlled at 124/78 mmHg on amlodipine 5 mg daily. Continue the current regimen. No side effects reported. Follow-up in six months."
+      ],
+      "recall_at_3": 0.5,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided, the following patients are taking lisinopril:\n\n1. **Patient P-A106** - Started on lisinopril 10 mg once daily\n2. **Patient P-A113** - Continuing lisinopril for kidney protection",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.43,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q33",
+      "category": "semantic",
+      "question": "Which patient is on warfarin, and what was their INR?",
+      "gold_docs": [
+        "d19"
+      ],
+      "retrieved_docs": [
+        "d19",
+        "d07",
+        "d07",
+        "d14",
+        "d01"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A124 is maintained on warfarin after a prior deep vein thrombosis. INR today is 2.4, within the target range of 2.0 to 3.0. No dose change. Next INR check in four weeks.",
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece",
+        "SYNTHETIC. Patient P-A114, a 71-year-old man, was admitted with acute decompensated heart failure with leg swelling and shortness of breath. BNP was 1450 pg/mL and echocardiogram showed a left ventricular ejection fraction of 30 percent. He received intravenous furosemide 40 mg and then oral furosemide 40 mg daily. Weight decreased from 92 kg on admission to 88 kg at discharge. He was discharged on carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liter",
+        " ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "Based on the clinical documents provided:\n\n**Patient P-A124** is on warfarin, and their INR was **2.4**, which is within the target range of 2.0 to 3.0.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.43,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q34",
+      "category": "semantic",
+      "question": "Which patient reported an allergy to sulfa drugs?",
+      "gold_docs": [
+        "d20"
+      ],
+      "retrieved_docs": [
+        "d20",
+        "d05",
+        "d05",
+        "d30",
+        "d26"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+        "ses a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+        "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily fo",
+        "SYNTHETIC. Patient P-A135 seen for allergic rhinitis. Allergy: pollen. Prescribed fluticasone nasal spray, two sprays per nostril daily. Avoid known triggers.",
+        "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed."
+      ],
+      "recall_at_3": 1.0,
+      "hit_at_3": true,
+      "recall_at_k": 1.0,
+      "related_docs": [],
+      "related_hit_at_3": null,
+      "related_hit_at_k": null,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "According to the clinical document context, **Patient P-A125** reported an allergy to sulfa drugs, which cause hives.",
+      "error": null,
+      "expected_abstain": false,
+      "abstained": false,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.23,
+      "review": null,
+      "final_abstained": false,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q35",
+      "category": "unanswerable",
+      "question": "What is the INR for patient P-A107?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d07",
+        "d19",
+        "d07",
+        "d32",
+        "d02"
+      ],
+      "retrieved_chunks": [
+        "mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+        "SYNTHETIC. Patient P-A124 is maintained on warfarin after a prior deep vein thrombosis. INR today is 2.4, within the target range of 2.0 to 3.0. No dose change. Next INR check in four weeks.",
+        "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no rece",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d07"
+      ],
+      "related_hit_at_3": true,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. The clinical documents for patient P-A107 discuss anticoagulation therapy with apixaban and note that \"routine INR monitoring is not required with apixaban,\" but no INR value is recorded for this patient.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 2.04,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    },
+    {
+      "id": "q36",
+      "category": "unanswerable",
+      "question": "What dose of lisinopril is patient P-A113 taking?",
+      "gold_docs": [],
+      "retrieved_docs": [
+        "d06",
+        "d32",
+        "d31",
+        "d18",
+        "d13"
+      ],
+      "retrieved_chunks": [
+        "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+        "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+        "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+        "SYNTHETIC. Patient P-A123 seen for hypertension follow-up. Blood pressure is well controlled at 124/78 mmHg on amlodipine 5 mg daily. Continue the current regimen. No side effects reported. Follow-up in six months.",
+        "SYNTHETIC. Nephrology consult for patient P-A113 with chronic kidney disease stage 3b. Creatinine 1.9 mg/dL and estimated GFR 38 mL/min. Advised to avoid nonsteroidal anti-inflammatory drugs such as ibuprofen because they can worsen kidney function. Continue lisinopril for kidney protection. Low-potassium diet recommended. Repeat labs in three months."
+      ],
+      "recall_at_3": null,
+      "hit_at_3": null,
+      "recall_at_k": null,
+      "related_docs": [
+        "d13"
+      ],
+      "related_hit_at_3": false,
+      "related_hit_at_k": true,
+      "http_status": 200,
+      "attempts": 1,
+      "answer": "The available context does not provide enough information to answer this question. The nephrology consult note for patient P-A113 mentions that the patient should \"continue lisinopril for kidney protection,\" but it does not specify the dose of lisinopril that the patient is taking.",
+      "error": null,
+      "expected_abstain": true,
+      "abstained": true,
+      "rule_correct": true,
+      "judge": {
+        "grounded": true,
+        "unsupported_claims": [],
+        "matches_reference": true,
+        "error": null
+      },
+      "review_flags": [],
+      "latency_s": 1.5,
+      "review": null,
+      "final_abstained": true,
+      "final_correct": true,
+      "final_grounded": true,
+      "review_status": "auto"
+    }
+  ]
+}

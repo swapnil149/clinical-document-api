@@ -1,0 +1,6 @@
+{
+  "q35": {
+    "grounded": false,
+    "note": "Reviewed manually: correct abstention, but the answer adds outside medical knowledge (apixaban is a direct oral anticoagulant, unlike warfarin) that is not in the retrieved notes. Groundedness failure confirmed."
+  }
+}

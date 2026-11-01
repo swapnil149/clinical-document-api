@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine
 from app import models
+from app import rag
 from app.rag import search_similar_chunks, index_document
 from app.schemas import DocumentCreate, Document, QuestionRequest, AgentRequest
 from app.agent import run_agent
@@ -31,6 +32,7 @@ client = Anthropic(
 
 # Look at all SQLAlchemy models that inherit from Base, and create the corresponding database tables if they do not already exist.
 models.Base.metadata.create_all(bind=engine)
+models.ix_documents_patient_id_upper.create(bind=engine, checkfirst=True)
 
 # helper function whose job is to provide a database session.
 # get_db() creates a SQLAlchemy session, yields it to the endpoint, and closes it after the request finishes.
@@ -249,7 +251,7 @@ def ask_question(
         chunks = search_similar_chunks(
             db,
             request.question,
-            limit=3
+            limit=rag.RAG_TOP_K
         )
     if not chunks:
         raise HTTPException(

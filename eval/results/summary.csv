@@ -1,0 +1,13 @@
+run,label,dataset,k,questions,recall_at_3,recall_at_k,related_doc_hit_at_3,related_doc_hit_at_k,answer_correctness,groundedness,abstention_accuracy,overall_correct,api_errors,judge_errors,avg_context_chars
+baseline-v1,v1 baseline (k=3),v1,3,30,1.0,1.0,0.6667,0.6667,1.0,1.0,1.0,1.0,0,0,1096
+idmatch_k5-v1,v1 final (ID match + k=5),v1,5,30,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,1853
+baseline-v2,"v2 baseline (k=3), sample 0",v2,3,36,0.9808,0.9808,0.625,0.625,0.9615,1.0,1.0,0.9722,0,0,889
+baseline-v2-s1,"v2 baseline (k=3), sample 1",v2,3,36,0.9808,0.9808,0.625,0.625,0.9615,1.0,1.0,0.9722,0,0,889
+headers-v2,v2 + metadata header (k=3),v2,3,36,0.9808,0.9808,0.625,0.625,0.9615,1.0,1.0,0.9722,0,0,886
+headers_k5-v2,v2 + metadata header + k=5,v2,5,36,0.9808,1.0,0.625,0.75,1.0,1.0,1.0,1.0,0,0,1451
+k5-v2,"v2 + k=5, sample 0",v2,5,36,0.9808,1.0,0.625,0.75,1.0,0.9722,1.0,1.0,0,0,1431
+k5-v2-s1,"v2 + k=5, sample 1",v2,5,36,0.9808,1.0,0.625,0.75,1.0,0.9722,1.0,1.0,0,0,1431
+idmatch-v2,"v2 + patient-ID match (k=3), sample 0",v2,3,36,0.9808,0.9808,1.0,1.0,0.9615,1.0,1.0,0.9722,0,0,905
+idmatch-v2-s1,"v2 + patient-ID match (k=3), sample 1",v2,3,36,0.9808,0.9808,1.0,1.0,0.9615,1.0,1.0,0.9722,0,0,905
+idmatch_k5-v2,"v2 final (ID match + k=5), sample 0",v2,5,36,0.9808,1.0,1.0,1.0,1.0,0.9722,1.0,1.0,0,1,1437
+idmatch_k5-v2-s1,"v2 final (ID match + k=5), sample 1",v2,5,36,0.9808,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,1437

@@ -1,0 +1,226 @@
+[
+  {
+    "key": "d01",
+    "patient_id": "P-A101",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A101, a 67-year-old man, was admitted with chest pain and diagnosed with an acute ST-elevation myocardial infarction. Emergency coronary angiography showed a 95 percent occlusion of the left anterior descending artery, treated with percutaneous coronary intervention and placement of one drug-eluting stent. Troponin peaked at 12.4 ng/mL. Echocardiogram showed a left ventricular ejection fraction of 45 percent. The patient was monitored in the cardiac unit for three days without arrhythmia. At discharge the patient was prescribed aspirin 81 mg daily, clopidogrel 75 mg daily, atorvastatin 80 mg nightly, and metoprolol tartrate 25 mg twice daily. He was counseled on cardiac rehabilitation and smoking cessation and will follow up with cardiology in one week.",
+    "set": "core"
+  },
+  {
+    "key": "d02",
+    "patient_id": "P-A102",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A102 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 8.4 percent, above the target of 7 percent. Current regimen is metformin 1000 mg twice daily. Empagliflozin 10 mg daily was added today. The patient reports adherence to diet but limited exercise. Dilated eye exam last month showed no diabetic retinopathy. Foot exam is normal. Recheck A1c in three months.",
+    "set": "core"
+  },
+  {
+    "key": "d03",
+    "patient_id": "P-A103",
+    "document_type": "lab_report",
+    "content": "SYNTHETIC. Fasting lipid panel for patient P-A103. Total cholesterol 242 mg/dL, LDL cholesterol 165 mg/dL, HDL cholesterol 38 mg/dL, triglycerides 195 mg/dL. Results are above goal for LDL. Recommend lifestyle changes and discussion of statin therapy at the next visit. Fasting duration 12 hours.",
+    "set": "core"
+  },
+  {
+    "key": "d04",
+    "patient_id": "P-A104",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. CT of the chest without contrast for patient P-A104. A 6 mm solid nodule is present in the right upper lobe. No mediastinal or hilar lymphadenopathy. No pleural effusion. Lungs are otherwise clear. Impression: indeterminate small pulmonary nodule. Recommend follow-up CT chest in 12 months.",
+    "set": "core"
+  },
+  {
+    "key": "d05",
+    "patient_id": "P-A105",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A105, a 58-year-old woman, was admitted with fever, productive cough, and shortness of breath. Chest X-ray showed consolidation in the left lower lobe, consistent with community-acquired pneumonia. Oxygen saturation was 89 percent on room air at admission and improved to 96 percent on room air by discharge. The patient has no history of diabetes. Allergy: penicillin, which causes a rash. Because of the penicillin allergy she was treated with levofloxacin 750 mg once daily for five days instead of a beta-lactam. She was discharged on hospital day four with instructions to rest and increase fluids, and follow-up with her primary care physician in two weeks.",
+    "set": "core"
+  },
+  {
+    "key": "d06",
+    "patient_id": "P-A106",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A106 seen for hypertension. Blood pressure today is 152/94 mmHg on repeat measurement. Started lisinopril 10 mg once daily. Counseled on a low-sodium diet and regular exercise. Discussed that a dry cough is a possible side effect of lisinopril and to report it. Follow-up visit in four weeks with a basic metabolic panel.",
+    "set": "core"
+  },
+  {
+    "key": "d07",
+    "patient_id": "P-A107",
+    "document_type": "consult_note",
+    "content": "SYNTHETIC. Cardiology consult for patient P-A107, a 74-year-old woman with newly detected atrial fibrillation with a rapid ventricular rate. Heart rate was 128 beats per minute at presentation. Echocardiogram showed normal left ventricular function. The CHA2DS2-VASc score is 4, indicating a high risk of stroke. Rate control was achieved with diltiazem 120 mg daily. Anticoagulation with apixaban 5 mg twice daily was started to reduce stroke risk. The patient has no history of bleeding and no recent falls. Routine INR monitoring is not required with apixaban. Plan: outpatient follow-up in two weeks and a repeat ECG.",
+    "set": "core"
+  },
+  {
+    "key": "d08",
+    "patient_id": "P-A108",
+    "document_type": "lab_report",
+    "content": "SYNTHETIC. Complete blood count and iron studies for patient P-A108. Hemoglobin 9.8 g/dL (low), mean corpuscular volume 72 fL (low), ferritin 8 ng/mL (low). Findings are consistent with iron deficiency anemia. Started ferrous sulfate 325 mg once daily. Referred for colonoscopy to evaluate for a source of chronic blood loss. Recheck hemoglobin in eight weeks.",
+    "set": "core"
+  },
+  {
+    "key": "d09",
+    "patient_id": "P-A109",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A109 seen for asthma follow-up. Uses albuterol rescue inhaler about twice a week. Controller medication is fluticasone 110 mcg, two puffs twice daily. Known triggers are pollen and exercise. No emergency visits or hospitalizations in the past year. Peak flow is 92 percent of predicted. Technique with the inhaler was reviewed.",
+    "set": "core"
+  },
+  {
+    "key": "d10",
+    "patient_id": "P-A110",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A110 underwent laparoscopic appendectomy for acute appendicitis. The operation was uncomplicated. Pain was controlled with acetaminophen; no opioids were prescribed at discharge. Discharged on the day after surgery. Wound check in 10 days. May return to work in two weeks.",
+    "set": "core"
+  },
+  {
+    "key": "d11",
+    "patient_id": "P-A111",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A111 returns for follow-up of type 2 diabetes mellitus. Hemoglobin A1c is 7.2 percent. Current medication is glipizide 5 mg daily. The patient reported two episodes of low blood sugar with sweating and shakiness in the past month, mostly when skipping meals. Counseled to eat regularly. Will consider switching from glipizide if hypoglycemia continues. Recheck A1c in three months.",
+    "set": "core"
+  },
+  {
+    "key": "d12",
+    "patient_id": "P-A112",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. MRI of the brain with and without contrast for patient P-A112, evaluated for recurrent headaches. No mass, hemorrhage, or acute infarct. Ventricles are normal in size. Mild mucosal thickening in the maxillary sinuses. Impression: normal brain MRI.",
+    "set": "core"
+  },
+  {
+    "key": "d13",
+    "patient_id": "P-A113",
+    "document_type": "consult_note",
+    "content": "SYNTHETIC. Nephrology consult for patient P-A113 with chronic kidney disease stage 3b. Creatinine 1.9 mg/dL and estimated GFR 38 mL/min. Advised to avoid nonsteroidal anti-inflammatory drugs such as ibuprofen because they can worsen kidney function. Continue lisinopril for kidney protection. Low-potassium diet recommended. Repeat labs in three months.",
+    "set": "core"
+  },
+  {
+    "key": "d14",
+    "patient_id": "P-A114",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A114, a 71-year-old man, was admitted with acute decompensated heart failure with leg swelling and shortness of breath. BNP was 1450 pg/mL and echocardiogram showed a left ventricular ejection fraction of 30 percent. He received intravenous furosemide 40 mg and then oral furosemide 40 mg daily. Weight decreased from 92 kg on admission to 88 kg at discharge. He was discharged on carvedilol and spironolactone. He was instructed to weigh himself daily, limit fluids to 1.5 liters per day, and follow a low-sodium diet. Cardiology follow-up in one week.",
+    "set": "core"
+  },
+  {
+    "key": "d15",
+    "patient_id": "P-A120",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. CT of the abdomen and pelvis with contrast for patient P-A120. A 4 mm nonobstructing stone is present in the right kidney. No hydronephrosis. Appendix, bowel, liver and pancreas are unremarkable. Impression: nonobstructing right renal calculus. Follow up with urology if flank pain recurs.",
+    "set": "distractor"
+  },
+  {
+    "key": "d16",
+    "patient_id": "P-A121",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. CT of the chest without contrast for patient P-A121. A 9 mm ground-glass nodule is present in the left lower lobe. No lymphadenopathy. Impression: ground-glass nodule, possibly infectious or inflammatory. Recommend follow-up CT chest in 3 months.",
+    "set": "distractor"
+  },
+  {
+    "key": "d17",
+    "patient_id": "P-A122",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A122 with type 1 diabetes mellitus uses an insulin pump with a basal rate of 0.8 units per hour. Continuous glucose monitor shows time in range of 68 percent. No severe hypoglycemia this quarter. Continue current pump settings.",
+    "set": "distractor"
+  },
+  {
+    "key": "d18",
+    "patient_id": "P-A123",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A123 seen for hypertension follow-up. Blood pressure is well controlled at 124/78 mmHg on amlodipine 5 mg daily. Continue the current regimen. No side effects reported. Follow-up in six months.",
+    "set": "distractor"
+  },
+  {
+    "key": "d19",
+    "patient_id": "P-A124",
+    "document_type": "consult_note",
+    "content": "SYNTHETIC. Patient P-A124 is maintained on warfarin after a prior deep vein thrombosis. INR today is 2.4, within the target range of 2.0 to 3.0. No dose change. Next INR check in four weeks.",
+    "set": "distractor"
+  },
+  {
+    "key": "d20",
+    "patient_id": "P-A125",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A125 was treated for acute bronchitis. Allergy: sulfa drugs, which cause hives. Prescribed azithromycin 500 mg on day one followed by 250 mg daily for four days. Advised to rest and drink fluids. Follow-up as needed.",
+    "set": "distractor"
+  },
+  {
+    "key": "d21",
+    "patient_id": "P-A126",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A126 presented with chest pain and was evaluated for acute coronary syndrome. Serial troponin levels were negative and the ECG was unchanged. Diagnosis: unstable angina, managed medically without a heart attack. Started on aspirin 81 mg daily and nitroglycerin as needed. Outpatient stress test scheduled.",
+    "set": "distractor"
+  },
+  {
+    "key": "d22",
+    "patient_id": "P-A127",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. Echocardiogram for patient P-A127 evaluated for palpitations. Left ventricular ejection fraction is 60 percent. Normal chamber sizes and valve function. No evidence of heart failure.",
+    "set": "distractor"
+  },
+  {
+    "key": "d23",
+    "patient_id": "P-A128",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A128 seen for knee osteoarthritis. Prescribed ibuprofen 400 mg three times daily with food and referred to physical therapy. Kidney function is normal. Follow-up in six weeks.",
+    "set": "distractor"
+  },
+  {
+    "key": "d24",
+    "patient_id": "P-A129",
+    "document_type": "lab_report",
+    "content": "SYNTHETIC. Fasting lipid panel for patient P-A129. Total cholesterol 178 mg/dL, LDL cholesterol 98 mg/dL, HDL cholesterol 55 mg/dL, triglycerides 120 mg/dL. All values within goal.",
+    "set": "distractor"
+  },
+  {
+    "key": "d25",
+    "patient_id": "P-A130",
+    "document_type": "radiology_report",
+    "content": "SYNTHETIC. MRI of the right knee without contrast for patient P-A130. Complex tear of the medial meniscus. Mild joint effusion. Anterior cruciate ligament is intact. Impression: medial meniscal tear.",
+    "set": "distractor"
+  },
+  {
+    "key": "d26",
+    "patient_id": "P-A131",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A131 seen for chronic obstructive pulmonary disease. Uses tiotropium 18 mcg inhaled daily and albuterol as needed. Former smoker with a 30 pack-year history. Oxygen saturation 93 percent on room air. Vaccinations reviewed.",
+    "set": "distractor"
+  },
+  {
+    "key": "d27",
+    "patient_id": "P-A132",
+    "document_type": "discharge_summary",
+    "content": "SYNTHETIC. Patient P-A132 was treated for acute appendicitis with intravenous antibiotics and discharged without surgery. Pain was controlled with ibuprofen. A short course of oxycodone 5 mg as needed was prescribed. Surgery clinic follow-up in two weeks.",
+    "set": "distractor"
+  },
+  {
+    "key": "d28",
+    "patient_id": "P-A133",
+    "document_type": "lab_report",
+    "content": "SYNTHETIC. Complete blood count for patient P-A133. Hemoglobin 14.1 g/dL, mean corpuscular volume 90 fL, ferritin 85 ng/mL. All values within normal limits.",
+    "set": "distractor"
+  },
+  {
+    "key": "d29",
+    "patient_id": "P-A134",
+    "document_type": "consult_note",
+    "content": "SYNTHETIC. Patient P-A134 seen for hyperlipidemia. Started rosuvastatin 20 mg nightly. Counseled on diet. Repeat lipid panel in 12 weeks.",
+    "set": "distractor"
+  },
+  {
+    "key": "d30",
+    "patient_id": "P-A135",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A135 seen for allergic rhinitis. Allergy: pollen. Prescribed fluticasone nasal spray, two sprays per nostril daily. Avoid known triggers.",
+    "set": "distractor"
+  },
+  {
+    "key": "d31",
+    "patient_id": "P-A136",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A136 seen for hypertension. Taking enalapril 10 mg twice daily with blood pressure of 136/84 mmHg. Plan to increase the dose at the next visit. Basic metabolic panel is stable.",
+    "set": "distractor"
+  },
+  {
+    "key": "d32",
+    "patient_id": "P-A137",
+    "document_type": "progress_note",
+    "content": "SYNTHETIC. Patient P-A137 seen for hypertension and heart protection after a stroke. Taking ramipril 5 mg daily. Blood pressure 130/80 mmHg. Continue current dose.",
+    "set": "distractor"
+  }
+]

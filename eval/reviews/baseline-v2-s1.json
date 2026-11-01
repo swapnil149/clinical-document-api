@@ -1,0 +1,6 @@
+{
+  "q36": {
+    "correct": true,
+    "note": "Reviewed manually: correctly declines to give a dose, but wrongly states patient P-A113 is not mentioned in any document (their note exists but was not retrieved). Counted as a correct abstention; the retrieval miss is captured by the related-document metric."
+  }
+}

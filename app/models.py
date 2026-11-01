@@ -15,7 +15,7 @@
 # Base      -> database table mapping
 
 # These are SQLAlchemy tools/types that describe database columns.
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Index, func
 from pgvector.sqlalchemy import Vector
 from app.database import Base
 
@@ -41,6 +41,11 @@ class Document(Base):
 
     # Text is used for longer string content.
     content = Column(Text, nullable=False)
+
+# Patient-ID matching in RAG compares upper(patient_id), so index that expression.
+# Base.metadata.create_all() only adds indexes when it creates the table; main.py also calls
+# create(checkfirst=True) so an existing database gets this index too.
+ix_documents_patient_id_upper = Index("ix_documents_patient_id_upper", func.upper(Document.patient_id))
 
 # Stores chunks of documents and their Voyage embeddings for RAG retrieval.
 class DocumentChunk(Base):
