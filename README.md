@@ -324,7 +324,7 @@ All runs: 0 API errors. Judge errors: 0 except one unparseable judge reply (reso
 - **Outbound traffic** from the ECS security group is currently unrestricted.
 - **The RDS instance is publicly accessible** (restricted by security group) rather than private-only.
 - **Schema management** uses `create_all` on startup; there are no migrations, and the `vector` extension must be enabled manually.
-- **Retrieval is basic:** fixed-size character chunking, a small fixed `k`, no vector index, and no re-ranking. Patient-ID matching extracts ID-shaped tokens (`P-A101`, `SYNTH-001`) from the question and looks up only those through an index on `upper(patient_id)`; IDs in a different format would not be recognised unless the pattern in `app/rag.py` is extended.
+- **Retrieval is basic:** fixed-size character chunking, a small fixed `k`, no vector index, and no re-ranking. Patient-ID matching extracts ID-shaped tokens (`P-A101`, `SYNTH-001`) from the question and looks up only those through an index on `upper(patient_id)`; IDs in a different format would not be recognised unless the pattern in `app/rag.py` is extended. Measured speedups and methodology: [`bench/README.md`](bench/README.md).
 - **The agent's structured output** always includes document fields, so it fits questions about a specific document better than open-ended ones.
 - **Terraform state is local**, and most infrastructure is not yet under Terraform.
 - **No CI/CD; only unit tests for patient-ID matching.** `tests/test_patient_id_matching.py` (stdlib `unittest`, no API calls; PostgreSQL cases need a local `*_test` database, see the file header). There are no API or end-to-end tests.

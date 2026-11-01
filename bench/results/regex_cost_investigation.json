@@ -1,0 +1,101 @@
+{
+ "python": "3.12.4",
+ "re_MAXCACHE": 512,
+ "repeats": 5,
+ "statistic": "median over repeats",
+ "regex_cache": [
+  {
+   "distinct_patterns": 100,
+   "re_search_with_pattern_string_ms": 0.13224995927885175,
+   "precompiled_ms": 0.10266597382724285,
+   "per_pattern_us_by_string": 1.3224995927885175,
+   "per_pattern_us_precompiled": 1.0266597382724285
+  },
+  {
+   "distinct_patterns": 256,
+   "re_search_with_pattern_string_ms": 0.34841697197407484,
+   "precompiled_ms": 0.2650410169735551,
+   "per_pattern_us_by_string": 1.3610037967737298,
+   "per_pattern_us_precompiled": 1.0353164725529496
+  },
+  {
+   "distinct_patterns": 400,
+   "re_search_with_pattern_string_ms": 0.8474999922327697,
+   "precompiled_ms": 0.4116250202059746,
+   "per_pattern_us_by_string": 2.1187499805819243,
+   "per_pattern_us_precompiled": 1.0290625505149364
+  },
+  {
+   "distinct_patterns": 500,
+   "re_search_with_pattern_string_ms": 0.9900419972836971,
+   "precompiled_ms": 0.5109159974381328,
+   "per_pattern_us_by_string": 1.9800839945673943,
+   "per_pattern_us_precompiled": 1.0218319948762655
+  },
+  {
+   "distinct_patterns": 512,
+   "re_search_with_pattern_string_ms": 1.0068340343423188,
+   "precompiled_ms": 0.5217500147409737,
+   "per_pattern_us_by_string": 1.9664727233248414,
+   "per_pattern_us_precompiled": 1.0190429975409643
+  },
+  {
+   "distinct_patterns": 520,
+   "re_search_with_pattern_string_ms": 19.71029199194163,
+   "precompiled_ms": 0.6161250057630241,
+   "per_pattern_us_by_string": 37.90440767681083,
+   "per_pattern_us_precompiled": 1.1848557803135078
+  },
+  {
+   "distinct_patterns": 600,
+   "re_search_with_pattern_string_ms": 36.0935409553349,
+   "precompiled_ms": 1.0146250133402646,
+   "per_pattern_us_by_string": 60.155901592224836,
+   "per_pattern_us_precompiled": 1.691041688900441
+  },
+  {
+   "distinct_patterns": 1000,
+   "re_search_with_pattern_string_ms": 63.38941695867106,
+   "precompiled_ms": 1.6900830087251961,
+   "per_pattern_us_by_string": 63.38941695867106,
+   "per_pattern_us_precompiled": 1.6900830087251961
+  },
+  {
+   "distinct_patterns": 5000,
+   "re_search_with_pattern_string_ms": 284.3244590330869,
+   "precompiled_ms": 8.705000043846667,
+   "per_pattern_us_by_string": 56.86489180661738,
+   "per_pattern_us_precompiled": 1.7410000087693334
+  },
+  {
+   "distinct_patterns": 20000,
+   "re_search_with_pattern_string_ms": 738.0672909785062,
+   "precompiled_ms": 20.693790982477367,
+   "per_pattern_us_by_string": 36.90336454892531,
+   "per_pattern_us_precompiled": 1.0346895491238683
+  }
+ ],
+ "original_time_breakdown": [
+  {
+   "patients": 1000,
+   "distinct_ids_fetched": 1002,
+   "sql_fetch_ms": 1.5541249886155128,
+   "regex_loop_original_ms": 35.29591701226309,
+   "regex_loop_precompiled_ms": 1.073207997251302
+  },
+  {
+   "patients": 10000,
+   "distinct_ids_fetched": 10002,
+   "sql_fetch_ms": 14.555250003468245,
+   "regex_loop_original_ms": 383.2805839483626,
+   "regex_loop_precompiled_ms": 10.433957970235497
+  },
+  {
+   "patients": 100000,
+   "distinct_ids_fetched": 100002,
+   "sql_fetch_ms": 152.73233299376443,
+   "regex_loop_original_ms": 5071.304666053038,
+   "regex_loop_precompiled_ms": 122.22575000487268
+  }
+ ]
+}

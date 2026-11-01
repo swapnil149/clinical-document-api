@@ -17,3 +17,6 @@ crash.log
 # RAG evaluation (local only)
 eval/.cache/
 eval/.pgdata/
+
+# Benchmark scratch output
+bench/*.log
